@@ -19,11 +19,19 @@ struct st {
 };
 typedef struct st state;
 
-int getCurrentColumn(int idx_point);
+/**
+ * Default read filename, try to open txt file.
+ * if we can open it, return txt content.
+ * Otherwise, return NULL.
+ * Only acccept txt format.
+ */
+char* getFileContent(const char* filename);
 
-char* getFileContent(const char* file_name);
+bool isTxtFile(const char* filename);
 
 int regexCheck(const char* txt);
+
+int getCurrentColumn(int idx_point);
 
 void initState(state *s);
 

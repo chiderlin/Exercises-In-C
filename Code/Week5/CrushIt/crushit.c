@@ -57,10 +57,17 @@ int getCurrentColumn(int index){
     return current_column;
 }
 
-char* getFileContent(const char* file_name){
-  FILE* fp = fopen(file_name, "rt");
+char* getFileContent(const char* filename){
+
+  FILE* fp = fopen(filename, "rt");
   if(fp == NULL){
     fprintf(stderr, "Warning: Cannot open file.\n");
+    return NULL;
+  }
+
+  bool is_txt_file = isTxtFile(filename);
+  if(!is_txt_file){
+    printf("Warning: Only accept txt file format.");
     return NULL;
   }
 
@@ -90,6 +97,16 @@ char* getFileContent(const char* file_name){
   fclose(fp);
   return fullContent;
 }
+
+bool isTxtFile(const char* filename){
+   const char* ext = strstr(filename, ".txt");
+   printf("ext: %s", ext);
+   if(ext != NULL && strcmp(ext, ".txt") ==0){
+      return true;
+   }
+   return false;
+}
+
 
 int regexCheck(const char* txt){
   regex_t reegex;
@@ -388,6 +405,11 @@ void test(void)
 {
     state s;
     char str[WIDTH*MAXROWS+1];
+
+    // test different file format
+    assert(initialise(&s, "brief_week5.pdf") == false);
+    
+    // test more txt files & crush function
     assert(initialise(&s, "eleven.txt") == true);
     for(int i=0; i<11; i++){
       assert(matches(&s));

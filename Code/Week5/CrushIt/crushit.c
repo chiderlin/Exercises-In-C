@@ -3,7 +3,6 @@
 
 
 /*
-{1,2,3,4,5}
 {B,B,B,D,B},
 {C,D,A,A,C},
 {D,A,A,B,D},
@@ -25,7 +24,7 @@ bool initialise(state* s, const char* str)
   // check 2D array is valid
   int isMatch = regexCheck(txt);
   if(!isMatch){
-    printf("Warning: Not match regex...");
+    printf("Warning: Not match regex...\n");
     return false;
   }
 
@@ -33,7 +32,7 @@ bool initialise(state* s, const char* str)
   printf("Log: init len: %i\n", len);
   
   if(len < MAXCELL || len%WIDTH != 0){
-    printf("Warning: Input string too short (not a multiple of 5)\n");
+    printf("Warning: Input string too short (not a multiple of 5).\n");
     return false;
   }
   if(len/WIDTH > MAXROWS) {
@@ -67,7 +66,7 @@ char* getFileContent(const char* filename){
 
   bool is_txt_file = isTxtFile(filename);
   if(!is_txt_file){
-    printf("Warning: Only accept txt file format.");
+    printf("Warning: Only accept txt file format.\n");
     return NULL;
   }
 
@@ -100,7 +99,7 @@ char* getFileContent(const char* filename){
 
 bool isTxtFile(const char* filename){
    const char* ext = strstr(filename, ".txt");
-   printf("ext: %s", ext);
+  //  printf("Log: ext: %s\n", ext);
    if(ext != NULL && strcmp(ext, ".txt") ==0){
       return true;
    }
@@ -136,6 +135,8 @@ bool tostring(const state* s, char* str)
   for(int row=0; row<height; row++){
     for(int col=0; col<WIDTH; col++){
       bool row_dots = checkRowDot((state*)s, row);
+
+      // write array content to string only when that row is not all dot.
       if(!row_dots){
         str[index++] = s->board[row][col];
       }
@@ -166,6 +167,9 @@ bool matches(state* s)
 {
   bool is_empty = isEmptyArray(s);
   int height = s->actual_height;
+
+  // When current array is empty, and only have 6 rows
+  // means game finished, can't match.
   if(is_empty && height == HEIGHT){
     return false;
   }
@@ -198,19 +202,21 @@ bool isEmptyArray(state* s){
 }
 
 /*
+Board
 ...DB 0
 CDAAC 1
-D...D 2
+DAABD 2
 AABC. 3
-A.... 4
+ABCD. 4
 BC... 5
 
-1 1 1 0
-0 0 0 0
-0 1 1 0 row
+Visited
+1 1 1 0 
+0 0 0 0 row
+0 0 0 x 
 0 0 0 1 
-0 1 1 1 <-
-0 0 1 1 
+0 0 0 1 <- dot_row_pinter
+0 1 1 0 
 */
 bool dropblocks(state* s)
 {
@@ -221,7 +227,11 @@ bool dropblocks(state* s)
     int is_dot = s->visited[row][col] ? 1 : 0; //1 dot, 0:alphabet
     int dot_row_pointer = -1;
 
-
+    /*
+    Check row from bottom to the top.
+    Record first dot index, and decreasely find alphabet,
+    once find, put it into current dot pointer, then dot pointer can -1.
+    */
     while(row >= 0){
       // printf("Log: Current row: %d, dot_row_pointer: %d\n", row, dot_row_pointer);
       is_dot = s->visited[row][col] ? 1 : 0;
@@ -241,9 +251,11 @@ bool dropblocks(state* s)
         dot_row_pointer = dot_row_pointer - 1;
         // printf("Log: Swapped: row %d with dot_row_pointer %d\n", row, dot_row_pointer);
       }
-      // ------reset visited------
+
+      // ------ reset visited to 0 ------
       s->visited[row][col] = false;
-      // ------reset visited------
+      // ------ reset visited to 0 ------
+
       row--;
     }
 
@@ -256,12 +268,6 @@ bool dropblocks(state* s)
 }
 
 void matchVertical(state* s){
-  /**
-   *         // 向下找
-        // 檢查過，並且一樣，把狀態變成true
-        // 先確認狀態是不是true, 即使是true了，還是檢查跟目前的字母是不是一樣
-        // 如果還是一樣，就把原先的字母也一起變成true
-   */
   char (*board)[WIDTH] = s->board;
   int actual_height = s->actual_height;
   int row_idx = 0;
@@ -281,10 +287,10 @@ void matchVertical(state* s){
         char next_point = board[next][col];
         // printf("Log: v next_point: %c\n", next_point);
 
-        //check vertical to the right
+        //check vertical to the bottom
         while(next < actual_height && current_point != '.' && current_point==board[next][col]){
           count+=1;
-          // printf("v match: (%i, %i)\n",next ,col);
+          // printf("Log: v match: (%i, %i)\n",next ,col);
           next_point = board[next][col];
           current_point = next_point;
           next +=1;
@@ -304,12 +310,6 @@ void matchVertical(state* s){
 }
 
 void matchHirizontal(state* s){
-  /**
-   *         // 向右找
-        // 檢查過，並且一樣，把狀態變成true
-        // 先確認狀態是不是true, 即使是true了，還是檢查跟目前的字母是不是一樣
-        // 如果還是一樣，就把原先的字母也一起變成true
-   */
   char (*board)[WIDTH] = s->board;
   int row_idx = 0;
   int actual_height = s->actual_height;
@@ -347,7 +347,8 @@ void matchHirizontal(state* s){
       }
     }
   }
-   // printVisited(s);
+  // printf("Log: matchHirizontal visited map:\n");
+  // printVisited(s);
 }
 
 void removeCombo(state* s){

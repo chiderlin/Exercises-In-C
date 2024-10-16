@@ -57,7 +57,6 @@ int getCurrentColumn(int index){
 }
 
 char* getFileContent(const char* filename){
-
   FILE* fp = fopen(filename, "rt");
   if(fp == NULL){
     fprintf(stderr, "Warning: Cannot open file.\n");
@@ -179,6 +178,7 @@ bool matches(state* s)
   matchHirizontal(s);
   matchVertical(s);
   removeCombo(s);
+  
   printf("Log: After Matching:\n");
   printBoard(s);
   return true;
@@ -281,7 +281,8 @@ void matchVertical(state* s){
       // reset the counter if we have a new column
       count = 1;
       next = row+1;
-      if(row<actual_height-2){
+      int not_last_2_row = actual_height-2;
+      if(row < not_last_2_row){
         char current_point = board[row][col];
         // printf("Log: v current_point: %c\n", current_point);
         char next_point = board[next][col];
@@ -297,7 +298,7 @@ void matchVertical(state* s){
         }
         int total_count = count;
         // printf("Log: v total count: %i\n",count);
-        if(total_count >= 3){
+        if(total_count >= MATCH_COMBO){
           for(int i=0; i<total_count; i++){
             s->visited[row+i][col] = true;
           }
@@ -313,6 +314,8 @@ void matchHirizontal(state* s){
   char (*board)[WIDTH] = s->board;
   int row_idx = 0;
   int actual_height = s->actual_height;
+
+  // begin from last 6 row
   if (actual_height > HEIGHT){
     row_idx = s->actual_height - HEIGHT;
   }
@@ -323,7 +326,8 @@ void matchHirizontal(state* s){
       // reset the counter if we have a new column
       count = 1;
       next = col+1;
-      if(col<WIDTH-2){
+      int not_last_2_col = WIDTH-2;
+      if(col<not_last_2_col){
         char current_point = board[row][col];
         // printf("Log: h current_point: %c\n", current_point);
         char next_point = board[row][next];
@@ -339,7 +343,7 @@ void matchHirizontal(state* s){
         }
         int total_count = count;
         // printf("Log: h total count: %i\n",count);
-        if(total_count >= 3){
+        if(total_count >= MATCH_COMBO){
           for(int i=0; i<total_count; i++){
             s->visited[row][col+i] = true;
           }

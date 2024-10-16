@@ -93,7 +93,7 @@ char* getFileContent(const char* filename){
     fullContent = temp;
     strcat(fullContent, text);
   }
-  printf("Log: Full file content: %s\n",fullContent);
+  // printf("Log: Full file content: %s\n",fullContent);
 
   fclose(fp);
   return fullContent;

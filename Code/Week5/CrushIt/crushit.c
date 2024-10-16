@@ -50,7 +50,6 @@ bool initialise(state* s, const char* str)
   return true;
 }
 
-
 int getCurrentColumn(int index){
     int current_column = index % WIDTH;
     return current_column;
@@ -100,6 +99,7 @@ char* getFileContent(const char* filename){
 }
 
 bool isTxtFile(const char* filename){
+  if(filename == NULL) return false;
    const char* ext = strstr(filename, ".txt");
   //  printf("Log: ext: %s\n", ext);
    if(ext != NULL && strcmp(ext, ".txt") ==0){
@@ -108,8 +108,8 @@ bool isTxtFile(const char* filename){
    return false;
 }
 
-
 int regexCheck(const char* txt){
+  if(txt == NULL) return false;
   regex_t reegex;
   int result = regcomp(&reegex, "^[A-Z.]+$", REG_EXTENDED);
   if(result){
@@ -124,7 +124,6 @@ int regexCheck(const char* txt){
   // match format return ture, else false
   return result == 0;
 }
-
 
 bool tostring(const state* s, char* str)
 {
@@ -188,6 +187,7 @@ bool matches(state* s)
 }
 
 bool isEmptyArray(state* s){
+  if(s == NULL) return false;
   bool is_empty = true;
   int height = s->actual_height;
   char (*board)[WIDTH] = s->board;
@@ -261,8 +261,6 @@ bool dropblocks(state* s)
 
       row--;
     }
-
-
   }
   printf("Log:----after drop-------\n");
   printBoard(s);
@@ -361,13 +359,13 @@ void matchHirizontal(state* s){
 void removeCombo(state* s){
   int actual_height = s->actual_height;
   for (int row = 0; row < actual_height; row++) {
-      for (int col = 0; col < WIDTH; col++) {
-          // 1:true, 0:false
-          int match = s->visited[row][col] ? 1 : 0;
-          if(match) {
-            s->board[row][col] = '.';
-          }
+    for (int col = 0; col < WIDTH; col++) {
+      // 1:true, 0:false
+      int match = s->visited[row][col] ? 1 : 0;
+      if(match) {
+        s->board[row][col] = '.';
       }
+    }
   }
 }
 
@@ -383,17 +381,19 @@ void printBoard(state* s){
 }
 
 void printVisited(state* s) {
-    int actual_height = s->actual_height;
-    for (int row = 0; row < actual_height; row++) {
-        for (int col = 0; col < WIDTH; col++) {
-            // 1:true, 0:false
-            printf("%d ", (int)s->visited[row][col] ? 1 : 0);
-        }
-        printf("\n");
+  int actual_height = s->actual_height;
+  for (int row = 0; row < actual_height; row++) {
+    for (int col = 0; col < WIDTH; col++) {
+      // 1:true, 0:false
+      printf("%d ", (int)s->visited[row][col] ? 1 : 0);
     }
+    printf("\n");
+  }
 }
 
 bool checkRowDot(state *s, int row){
+  if(s == NULL) return false;
+  if(row < 0 || row > MAXROWS) return false;
   bool dot = true;
   char (*board)[WIDTH] = s->board;
   for(int col=0; col<WIDTH; col++){
@@ -403,7 +403,6 @@ bool checkRowDot(state *s, int row){
   }
   return dot;
 }
-
 
 void initState(state *s){
   memset(s->visited, 0, sizeof(s->visited));
@@ -417,6 +416,14 @@ void test(void)
     // test different file format
     assert(initialise(&s, "brief_week5.pdf") == false);
     
+    // test isTxtFile function
+    assert(isTxtFile(NULL) == false);
+    char* filename = "brief_week5.pdf";
+    assert(isTxtFile(filename) == false);
+    filename = "eleven.txt";
+    assert(isTxtFile(filename) == true);
+
+
     // test more txt files & crush function
     assert(initialise(&s, "./eleven.txt") == true);
     for(int i=0; i<11; i++){
@@ -434,4 +441,21 @@ void test(void)
     }
     assert(tostring(&s, str) == true);
     assert(strcmp(str,"B....D....C....A...AABDADAACDB") == 0);
+
+    // test regexCheck function
+    assert(regexCheck(NULL) == false);
+    char* txt = "A!@#$^&*FDSGC";
+    assert(regexCheck(txt) == false);
+    txt = "ASDFJSLKTSLD.";
+    assert(regexCheck(txt) == true);
+    txt = "sdlfkjg.";
+    assert(regexCheck(txt) == false);
+    txt = "AFJKLSD435.";
+    assert(regexCheck(txt) == false);
+
+    // test pointer parameter 
+    assert(isEmptyArray(NULL) == false);
+    assert(checkRowDot(NULL, 2) == false);
+    assert(checkRowDot(&s, 21) == false);
+
 }

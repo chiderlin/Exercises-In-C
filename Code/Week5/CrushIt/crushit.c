@@ -30,7 +30,7 @@ bool initialise(state* s, const char* str)
   }
 
   int len = strlen(txt);
-  printf("Log: len: %i\n", len);
+  printf("Log: init len: %i\n", len);
   
   if(len < MAXCELL || len%WIDTH != 0){
     printf("Warning: Input string too short (not a multiple of 5)\n");
@@ -60,19 +60,15 @@ int getCurrentColumn(int index){
 char* getFileContent(const char* file_name){
   FILE* fp = fopen(file_name, "rt");
   if(fp == NULL){
-    fprintf(stderr, "cannot open file.\n");
-    // if an err occurs or the file is empty, return empty string.
-    // return file_name;
+    fprintf(stderr, "Warning: Cannot open file.\n");
     return NULL;
   }
 
   char *fullContent = malloc(1);
   if(fullContent == NULL){
-    perror("Unable to allocate memory.\n");
+    perror("Warning: Unable to allocate memory.\n");
     fclose(fp);
-    // return file_name;
     return NULL;
-
   }
   char text[BIGSTR];
   // read one line at a time
@@ -89,7 +85,7 @@ char* getFileContent(const char* file_name){
     fullContent = temp;
     strcat(fullContent, text);
   }
-  // printf("Full file content\n%s",fullContent);
+  // printf("Log: Full file content\n%s",fullContent);
 
   fclose(fp);
   return fullContent;
@@ -99,11 +95,11 @@ int regexCheck(const char* txt){
   regex_t reegex;
   int result = regcomp(&reegex, "^[A-Z.]+$", REG_EXTENDED);
   if(result){
-    printf("Could not compile regex.\n");
+    printf("Warning: Could not compile regex.\n");
     return false;
   }
   result = regexec(&reegex, txt, 0, NULL, 0);
-  // printf("result: %i",result);
+  // printf("Log: result: %i\n",result);
 
   regfree(&reegex);
 
@@ -129,7 +125,7 @@ bool tostring(const state* s, char* str)
     }
   }
   str[index] = '\0';
-  printf("str: %s", str);
+  printf("Log: str: %s\n", str);
   return true;
 }
 

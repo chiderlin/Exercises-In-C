@@ -10,7 +10,6 @@
 #define HEIGHT 6
 #define MAXCELL 30
 #define BIGSTR 500
-#define FNAME "b1.txt"
 #define MATCH_COMBO 3
 
 struct st {
@@ -26,18 +25,18 @@ char* getFileContent(const char* file_name);
 
 int regexCheck(const char* txt);
 
+void initState(state *s);
+
+bool isEmptyArray(state* s);
+
 void matchVertical(state* s);
 
 void matchHirizontal(state* s);
+
+void removeCombo(state* s);
 
 void printBoard(state* s);
 
 void printVisited(state* s);
 
-void removeCombo(state* s);
-
 bool checkRowDot(state* s, int row);
-
-bool isEmptyArray(state* s);
-
-void initState(state *s);

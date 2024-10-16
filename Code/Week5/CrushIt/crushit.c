@@ -75,6 +75,7 @@ char* getFileContent(const char* filename){
     fclose(fp);
     return NULL;
   }
+  fullContent[0] = '\0';
   char text[BIGSTR];
   // read one line at a time
   while(fgets(text, sizeof(text), fp) != NULL){
@@ -85,7 +86,9 @@ char* getFileContent(const char* filename){
     char *temp = realloc(fullContent, new_len);
     if(temp == NULL){
       perror("Unable to realloc memory.\n");
+      free(fullContent);
       fclose(fp);
+      return NULL;
     }
     fullContent = temp;
     strcat(fullContent, text);

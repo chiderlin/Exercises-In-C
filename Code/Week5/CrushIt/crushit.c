@@ -90,7 +90,7 @@ char* getFileContent(const char* filename){
     fullContent = temp;
     strcat(fullContent, text);
   }
-  // printf("Log: Full file content\n%s",fullContent);
+  printf("Log: Full file content\n%s",fullContent);
 
   fclose(fp);
   return fullContent;
@@ -415,20 +415,20 @@ void test(void)
     assert(initialise(&s, "brief_week5.pdf") == false);
     
     // test more txt files & crush function
-    // assert(initialise(&s, "./eleven.txt") == true);
-    // for(int i=0; i<11; i++){
-    //   assert(matches(&s));
-    //   assert(dropblocks(&s));
-    // }
-    // assert(tostring(&s, str) == true);
-    // assert(strcmp(str,"D....A....C....C...AB..BAAC.DCCA.BD") == 0);
+    assert(initialise(&s, "./eleven.txt") == true);
+    for(int i=0; i<11; i++){
+      assert(matches(&s));
+      assert(dropblocks(&s));
+    }
+    assert(tostring(&s, str) == true);
+    assert(strcmp(str,"D....A....C....C...AB..BAAC.DCCA.BD") == 0);
 
 
-    // assert(initialise(&s, "twelve.txt") == true);
-    // for(int i=0; i<11; i++){
-    //   assert(matches(&s));
-    //   assert(dropblocks(&s));
-    // }
-    // assert(tostring(&s, str) == true);
-    // assert(strcmp(str,"B....D....C....A...AABDADAACDB") == 0);
+    assert(initialise(&s, "twelve.txt") == true);
+    for(int i=0; i<11; i++){
+      assert(matches(&s));
+      assert(dropblocks(&s));
+    }
+    assert(tostring(&s, str) == true);
+    assert(strcmp(str,"B....D....C....A...AABDADAACDB") == 0);
 }

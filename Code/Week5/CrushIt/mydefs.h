@@ -17,7 +17,6 @@ struct st {
    char board[MAXROWS][WIDTH];
    unsigned int actual_height;
    bool visited[MAXROWS][WIDTH];
-   char str[WIDTH*MAXROWS+1];
 };
 typedef struct st state;
 
@@ -38,3 +37,7 @@ void printVisited(state* s);
 void removeCombo(state* s);
 
 bool checkRowDot(state* s, int row);
+
+bool isEmptyArray(state* s);
+
+void initState(state *s);

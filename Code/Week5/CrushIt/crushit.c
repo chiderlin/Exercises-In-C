@@ -13,37 +13,40 @@
 */
 bool initialise(state* s, const char* str)
 {
+  
   // default-> char* str is filename.
   // try to open it
   const char* txt = getFileContent(str);
-  // printf("txt: %s\n", txt);
-  if(!txt){
+  if(!txt && !str){
+    return false;
+  } else if(!txt){
     txt = str;
   }
   // check 2D array is valid
   int isMatch = regexCheck(txt);
   if(!isMatch){
+    printf("Warning: Not match regex...");
     return false;
   }
 
   int len = strlen(txt);
-  printf("len: %i\n", len);
+  printf("Log: len: %i\n", len);
   
   if(len < MAXCELL || len%WIDTH != 0){
-    printf("Input string too short (not a multiple of 5)\n");
+    printf("Warning: Input string too short (not a multiple of 5)\n");
     return false;
   }
   if(len/WIDTH > MAXROWS) {
-    printf("Maxinum number of rows is 20.\n");
+    printf("Warning: Maxinum number of rows is 20.\n");
     return false;
   }
   s->actual_height = len/WIDTH;
   for(int i=0; i<len; i++){
     int current_row = i / WIDTH;
-    // printf("current_row %i\n",current_row);
     int current_column = getCurrentColumn(i);
     s->board[current_row][current_column] = txt[i];
   }
+  initState(s);
 
   return true;
 }
@@ -126,9 +129,7 @@ bool tostring(const state* s, char* str)
     }
   }
   str[index] = '\0';
-  strncpy(s->str, str, BIGSTR-1);
-  // s->str[BIGSTR-1] = '\0';
-  printf("str:%s\n", str); 
+  printf("str: %s", str);
   return true;
 }
 
@@ -150,20 +151,37 @@ BC... 5
 */
 bool matches(state* s)
 {
-  printf("Before Matching:\n");
+  bool is_empty = isEmptyArray(s);
+  int height = s->actual_height;
+  if(is_empty && height == HEIGHT){
+    return false;
+  }
+  printf("Log: Before Matching:\n");
   printBoard(s);
 
   matchHirizontal(s);
   matchVertical(s);
   removeCombo(s);
-  printf("After Matching:\n");
+  printf("Log: After Matching:\n");
   printBoard(s);
-  int len = strlen(s->str);
-  int height = s->actual_height;
-  if(len == 0 && height == HEIGHT){
-    return false;
-  }
   return true;
+}
+
+bool isEmptyArray(state* s){
+  bool is_empty = true;
+  int height = s->actual_height;
+  char (*board)[WIDTH] = s->board;
+  for(int i=0; i<height;i++){
+    for(int j=0; j<WIDTH; j++){
+      // printf("%d ", board[i][j]);
+      if(board[i][j] != '.'){
+        is_empty = false;
+        return is_empty;
+      }
+    }
+    // printf("\n");
+  }
+  return is_empty;
 }
 
 /*
@@ -187,19 +205,19 @@ bool dropblocks(state* s)
   for(int col=0; col<WIDTH; col++){
     bool init_dot = false;
     int row = height - 1;
-    int is_dot = s->visited[row][col] ? 1 : 0; //1 dot, 0:alpha
+    int is_dot = s->visited[row][col] ? 1 : 0; //1 dot, 0:alphabet
     int dot_row_pointer = -1;
 
 
     while(row >= 0){
-      // printf("Current row: %d, dot_row_pointer: %d\n", row, dot_row_pointer);
+      // printf("Log: Current row: %d, dot_row_pointer: %d\n", row, dot_row_pointer);
       is_dot = s->visited[row][col] ? 1 : 0;
       if(is_dot && !init_dot){
         init_dot = true;
         dot_row_pointer = row;
       }
 
-      if(!is_dot && init_dot){ // alpha
+      if(!is_dot && init_dot){ // alphabet
         int alpha = s->board[row][col];
 
         //swap 
@@ -208,7 +226,7 @@ bool dropblocks(state* s)
 
         // change pointer
         dot_row_pointer = dot_row_pointer - 1;
-        // printf("Swapped: row %d with dot_row_pointer %d\n", row, dot_row_pointer);
+        // printf("Log: Swapped: row %d with dot_row_pointer %d\n", row, dot_row_pointer);
       }
       // ------reset visited------
       s->visited[row][col] = false;
@@ -218,9 +236,9 @@ bool dropblocks(state* s)
 
 
   }
-  printf("----after drop-------\n");
+  printf("Log:----after drop-------\n");
   printBoard(s);
-  printf("----after drop-------\n");
+  printf("Log:----after drop-------\n");
   return true;
 }
 
@@ -246,22 +264,20 @@ void matchVertical(state* s){
       next = row+1;
       if(row<actual_height-2){
         char current_point = board[row][col];
-        printf("v current_point: %c\n", current_point);
+        // printf("Log: v current_point: %c\n", current_point);
         char next_point = board[next][col];
-        printf("v next_point: %c\n", next_point);
+        // printf("Log: v next_point: %c\n", next_point);
 
         //check vertical to the right
         while(next < actual_height && current_point != '.' && current_point==board[next][col]){
           count+=1;
-          // printf("next: %i\n", next);
-          // printf("count: %i\n", count);
-          printf("v match: (%i, %i)\n",next ,col);
+          // printf("v match: (%i, %i)\n",next ,col);
           next_point = board[next][col];
           current_point = next_point;
           next +=1;
         }
         int total_count = count;
-        printf("v total count: %i\n",count);
+        // printf("Log: v total count: %i\n",count);
         if(total_count >= 3){
           for(int i=0; i<total_count; i++){
             s->visited[row+i][col] = true;
@@ -270,7 +286,8 @@ void matchVertical(state* s){
       }
     }
   }
-  printVisited(s);
+  // printf("Log: matchVertical visited map:\n");
+  // printVisited(s);
 }
 
 void matchHirizontal(state* s){
@@ -283,11 +300,9 @@ void matchHirizontal(state* s){
   char (*board)[WIDTH] = s->board;
   int row_idx = 0;
   int actual_height = s->actual_height;
-  // printf("actual_height: %i\n",actual_height);
   if (actual_height > HEIGHT){
     row_idx = s->actual_height - HEIGHT;
   }
-  // printf("row_idx: %i\n", row_idx);
   for(int row=row_idx; row<actual_height; row++){
     int count = 1;
     int next = 0;
@@ -297,29 +312,26 @@ void matchHirizontal(state* s){
       next = col+1;
       if(col<WIDTH-2){
         char current_point = board[row][col];
-        printf("h current_point: %c\n", current_point);
+        // printf("Log: h current_point: %c\n", current_point);
         char next_point = board[row][next];
-        printf("h next_point: %c\n", next_point);
+        // printf("Log: h next_point: %c\n", next_point);
 
         //check horizontally to the right
         while(next < WIDTH && current_point != '.' && current_point==board[row][next]){
           count+=1;
-          // printf("next: %i\n", next);
-          // printf("count: %i\n", count);
-          printf("h match: (%i, %i)\n",row ,next);
+          // printf("Log: h match: (%i, %i)\n",row ,next);
           next_point = board[row][next];
           current_point = next_point;
           next +=1;
         }
         int total_count = count;
-        printf("h total count: %i\n",count);
+        // printf("Log: h total count: %i\n",count);
         if(total_count >= 3){
           for(int i=0; i<total_count; i++){
             s->visited[row][col+i] = true;
           }
         }
       }
-
     }
   }
    // printVisited(s);
@@ -353,10 +365,10 @@ void printVisited(state* s) {
     int actual_height = s->actual_height;
     for (int row = 0; row < actual_height; row++) {
         for (int col = 0; col < WIDTH; col++) {
-            // 打印 1 表示 true, 0 表示 false
-            printf("%d ", s->visited[row][col] ? 1 : 0);
+            // 1:true, 0:false
+            printf("%d ", (int)s->visited[row][col] ? 1 : 0);
         }
-        printf("\n");  // 換行打印
+        printf("\n");
     }
 }
 
@@ -372,17 +384,28 @@ bool checkRowDot(state *s, int row){
 }
 
 
+void initState(state *s){
+  memset(s->visited, 0, sizeof(s->visited));
+}
+
 void test(void)
 {
     state s;
     char str[WIDTH*MAXROWS+1];
     assert(initialise(&s, "eleven.txt") == true);
-    assert(matches(&s)==true);
+    for(int i=0; i<11; i++){
+      assert(matches(&s));
+      assert(dropblocks(&s));
+    }
     assert(tostring(&s, str) == true);
-    assert(strcmp(str,    "") == 0);
+    assert(strcmp(str,"D....A....C....C...AB..BAAC.DCCA.BD") == 0);
 
-    // assert(initialise(&s, "twelve.txt") == true);
-    // assert(matches(&s)==true);
-    // assert(tostring(&s, str) == true);
-    // assert(strcmp(str,    "") == 0);
+
+    assert(initialise(&s, "twelve.txt") == true);
+    for(int i=0; i<11; i++){
+      assert(matches(&s));
+      assert(dropblocks(&s));
+    }
+    assert(tostring(&s, str) == true);
+    assert(strcmp(str,"B....D....C....A...AABDADAACDB") == 0);
 }

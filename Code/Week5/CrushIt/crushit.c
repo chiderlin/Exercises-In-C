@@ -415,7 +415,7 @@ void test(void)
     assert(initialise(&s, "brief_week5.pdf") == false);
     
     // test more txt files & crush function
-    assert(initialise(&s, "eleven.txt") == true);
+    assert(initialise(&s, "./eleven.txt") == true);
     for(int i=0; i<11; i++){
       assert(matches(&s));
       assert(dropblocks(&s));

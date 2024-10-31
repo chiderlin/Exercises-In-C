@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/chider/code/bristol/Exercises-In-C/Code/Week3/Rot18",
-      "program": "/Users/chider/code/bristol/Exercises-In-C/Code/Week3/Rot18/build/Debug/outDebug"
+      "cwd": "/Users/chider/code/bristol/Exercises-In-C/Code/Week5/CrushIt",
+      "program": "/Users/chider/code/bristol/Exercises-In-C/Code/Week5/CrushIt/build/Debug/outDebug"
     }
   ]
 }

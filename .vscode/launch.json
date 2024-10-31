@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/chider/code/bristol/Exercises-In-C/Code/Week5/CrushIt",
+      "program": "/Users/chider/code/bristol/Exercises-In-C/Code/Week5/CrushIt/build/Debug/outDebug"
+    }
+  ]
+}

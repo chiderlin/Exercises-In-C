@@ -11,12 +11,12 @@ int main(void)
    char str[MAXSTR];
    state* s;
 
-   assert(file2str("2moves.brd", str));
-   strcpy(str, "A-ABC-ABC-ABC-CBA");
-   s = str2state(str);
-   assert(s);
-   assert(solve(s, true)==2);
-   free(s);
+   // assert(file2str("2moves.brd", str));
+   // strcpy(str, "A-ABC-ABC-ABC-CBA");
+   // s = str2state(str);
+   // assert(s);
+   // assert(solve(s, true)==2);
+   // free(s);
 
    // assert(file2str("0moves.brd", str));
    // assert(strcmp("A-B", str)==0);
@@ -41,10 +41,13 @@ int main(void)
    // assert(file2str("10moves.brd", str));
    // s = str2state(str);
    // assert(solve(s, false)==10);
+   // // solve(s, false);
+   // // printBoards(s);
    // free(s);
 
    assert(file2str("9moves.brd", str));
    s = str2state(str);
+   // solve(s, false);
    assert(solve(s, false)==9);
    free(s);
 

@@ -29,7 +29,7 @@ int main(void)
    assert(strcmp("O-COMS-COMS-COMS-CMMS-CSSO", str)==0);
    s = str2state(str);
    assert(s);
-   assert(solve(s, true)==4);
+   assert(solve(s, false)==4);
    free(s);
 
    assert(file2str("imposs.brd", str));

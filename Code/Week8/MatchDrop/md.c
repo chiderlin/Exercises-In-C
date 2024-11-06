@@ -56,10 +56,10 @@ int solve(state* s, bool verbose)
    int width = s->board_width;
 
    while(s->pointer < s->size) {
-      int currentPointerIndex = s->pointer;
-      int currentSize = s->size;
-      // printf("currentPointerIndex: %d \n", currentPointerIndex);
-      // printf("currentSize: %d \n", currentSize);
+      // int current_pointer_Idx = s->pointer;
+      // int current_size = s->size;
+      // printf("current_pointer_Idx: %d \n", current_pointer_Idx);
+      // printf("current_size: %d \n", current_size);
       // printf("---------------\n");
 
       board* b = &s->boards[s->pointer];

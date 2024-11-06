@@ -45,6 +45,7 @@ struct state
     int size;
     unsigned int board_height;
     unsigned int board_width;
+    bool find_solution;
 };
 
 typedef struct board board;

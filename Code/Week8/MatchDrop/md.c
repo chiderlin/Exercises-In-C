@@ -86,7 +86,9 @@ int solve(state* s, bool verbose)
          }
          return moves;
       }
-      generateMove(s); // if generateMove, size++;
+      if(!s->find_solution){
+         generateMove(s); // if generateMove, size++;
+      }
       movePointer(s); // pointer++;
 
    }
@@ -145,6 +147,31 @@ void printProcess(state* s, board* final_b)
 //TODO write testcase
 void test(void)
 {
+   char str[MAXSTR];
+   state* s;
+
+   strcpy(str, "A-AAA-BBB-CCC-BBB");
+   s = str2state(str);
+   assert(isSolution(&s->boards[0], s->board_height, s->board_width)==0);
+   free(s);
+
+
+   strcpy(str, "A-ABC-ABC-ABC-CBA");
+   s = str2state(str);
+   assert(isSolution(&s->boards[0], s->board_height, s->board_width)==0);
+   free(s);
+
+   strcpy(str, "A-ABC-ABC-ABC-ABC");
+   s = str2state(str);
+   assert(isSolution(&s->boards[0], s->board_height, s->board_width)==1);
+   free(s);
+
+   strcpy(str, "A-ACC-ABB-ABC-ABC");
+   s = str2state(str);
+   assert(lockColumn(&s->boards[0], s->board_height, 0)==1);
+   assert(lockColumn(&s->boards[0], s->board_height, 1)==0);
+   free(s);
+
 
 }
 
@@ -366,7 +393,11 @@ void generateMove(state* s)
             boardAdd(s, &currentBoard);
          }
          // printBoard(&currentBoard, height, width);
-         //TODO: check solution again, once find, stop gen new move in board array
+         //check solution again, update state. once find, stop gen new move in board array
+         if(isSolution(&currentBoard, height, width) == 1){
+            s->find_solution = true;
+            return ;
+         }
       }
 
    }
@@ -418,6 +449,7 @@ state* stateInit(void)
       exit(EXIT_FAILURE);
    }
    s->size = 0;
+   s->find_solution = false;
    return s;
 }
 
@@ -445,7 +477,6 @@ ABC
 */
 bool isSolution(board *b, int height, int width)
 {
-   // printf("in isSolution.....\n");
    for(int c=0; c<width; c++){
       for(int r=0; r<height-1; r++){
          if(b->self[r][c] != b->self[r+1][c]){

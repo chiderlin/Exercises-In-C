@@ -32,12 +32,10 @@ struct state{
 
 struct board
 {
-    char* board_str;
     int moves;
     char self[BRDSZ][BRDSZ];
     char hawk;
     int parent_idx;
-
 };
 
 struct state
@@ -65,7 +63,6 @@ void movePointer(state* s);
 bool isUniqueBoard(state* s, board* b);
 bool isSolution(board *b, int height, int width);
 void printProcess(state* s, board* final_b);
-void freeBoard(state* s);
 
 state* stateInit(void);
 

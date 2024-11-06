@@ -45,11 +45,11 @@ int main(void)
    // printBoards(s);
    free(s);
 
-   // assert(file2str("9moves.brd", str));
-   // s = str2state(str);
-   // assert(solve(s, false)==9);
-   // // solve(s, false); 
-   // free(s);
+   assert(file2str("9moves.brd", str));
+   s = str2state(str);
+   assert(solve(s, false)==9);
+   // solve(s, false); 
+   free(s);
 
    // assert(file2str("11moves.brd", str));
    // s = str2state(str);

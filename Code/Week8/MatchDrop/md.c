@@ -33,7 +33,6 @@ state* str2state(const char* str)
    int str_len = strlen(str);
    printf("str_len: %d \n", str_len);
    s->pointer = 0;
-   // b.board_str = (char*)str;
    b.moves = 0;
    b.hawk = str[0];
    b.parent_idx = -1;
@@ -92,24 +91,9 @@ int solve(state* s, bool verbose)
 
    }
    // printBoards(s);
-
-   // freeBoard(s);
    return -1;
 }
 
-void freeBoard(state* s)
-{
-   if(s == NULL){
-      return ;
-   }
-   // only char* board_str; need to be free
-   for(int i=0; i< s->size; i++){
-      if(s->boards[i].board_str != NULL){
-         free(s->boards[i].board_str);
-         s->boards[i].board_str = NULL;
-      }
-   }
-}
 
 void printProcess(state* s, board* final_b)
 {
@@ -214,7 +198,7 @@ char* getFileContent(const char* filename)
     strcat(fullContent, text);
   }
   // printf("Log: Full file content: %s\n",fullContent);
-  
+
   fclose(fp);
   return fullContent;
 }
@@ -238,12 +222,10 @@ void printBoard(board* b, int height, int width)
    printf("moves: %d \n", moves);
 
    int parent = b->parent_idx;
-   // char* str = b->board_str;
 
    printf("parent: %d \n", parent);
    printf("height: %d \n", height);
    printf("width: %d \n",width);
-   // printf("board_str: %s\n", str);
    for(int r=0; r<height; r++){
       for(int c=0; c<width; c++){
          printf("%c ", b->self[r][c]);
@@ -374,10 +356,7 @@ void generateMove(state* s)
             currentBoard.hawk = new_hawk;
          }
          currentBoard.parent_idx = s->pointer;
-         // char* str = board2str(&currentBoard, height, width);
-         // printf("str outsde...: %s\n", str);
-         // currentBoard.board_str = str;
-         // printBoard(&currentBoard, height, width);
+
          // check if 2D array isExist in state board[]
          bool is_unique_board = isUniqueBoard(s, &currentBoard);
          // printf("Is unique board: %s\n", is_unique_board ? "true" : "false");
@@ -410,16 +389,6 @@ bool isUniqueBoard(state* s, board* b)
    //run through boards[] check if currentBoard is new one or already exists
    for(int i=0; i<size; i++){
       char* boards_str = board2str(&s->boards[i], height, width);
-      // printf("str outsde...: %s\n", str);
-      // currentBoard.board_str = str;
-      // char* board_str = s->boards[i].board_str;
-      // printf("board_str: %s\n", board_str);
-      // char* current_board = b->board_str;
-      // printf("current_board: %s\n",current_board);
-      // if(board_str == NULL || current_board == NULL){
-      //    printf("Error: board_str or current_board is NULL in isUniqueBoard\n");
-      //    return false;
-      // }
       if(strcmp(current_board_str, boards_str) == 0){
          free(boards_str);
          free(current_board_str);

@@ -56,14 +56,7 @@ int solve(state* s, bool verbose)
    int width = s->board_width;
 
    while(s->pointer < s->size) {
-      // int current_pointer_Idx = s->pointer;
-      // int current_size = s->size;
-      // printf("current_pointer_Idx: %d \n", current_pointer_Idx);
-      // printf("current_size: %d \n", current_size);
-      // printf("---------------\n");
-
       board* b = &s->boards[s->pointer];
-      // printBoard(b, height, width, true);
       if(isSolution(b, height, width)){
          // if yes. print b->moves
          

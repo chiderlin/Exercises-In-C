@@ -15,7 +15,6 @@ bool file2str(const char* fname, char* str)
    return true;
 }
 
-
 state* str2state(const char* str)
 {
    if(str == NULL){
@@ -88,7 +87,6 @@ int solve(state* s, bool verbose)
    return -1;
 }
 
-
 void printProcess(state* s, board* final_b)
 {
    int height = s->board_height;
@@ -131,7 +129,6 @@ void printProcess(state* s, board* final_b)
    }
    free(solution_arr);
 }
-
 
 void test(void)
 {
@@ -205,7 +202,6 @@ char* toStringFormat(char *txt)
    return txt;
 }
 
-
 char* getFileContent(const char* filename)
 {
   FILE* fp = fopen(filename, "rt");
@@ -241,7 +237,6 @@ char* getFileContent(const char* filename)
   fclose(fp);
   return full_content;
 }
-
 
 void printBoard(board* b, int height, int width, bool debug_mode)
 {
@@ -304,7 +299,6 @@ char* board2str(board* b, int height, int width)
    return tmp_str;
 }
 
-
 bool lockColumn(board* b, int height, int column)
 {
    if(b == NULL){
@@ -321,8 +315,6 @@ bool lockColumn(board* b, int height, int column)
    }
    return is_same;
 }
-
-
 
 void generateMove(state* s)
 {
@@ -371,7 +363,6 @@ void generateMove(state* s)
    // printBoards(s);
 }
 
-
 bool isUniqueBoard(state* s, board* b)
 {
    // printf("in isUniqueBoard///\n");
@@ -400,13 +391,10 @@ bool isUniqueBoard(state* s, board* b)
    return true;
 }
 
-
-
 void movePointer(state* s)
 {
    s->pointer +=1;
 }
-
 
 state* stateInit(void)
 {
@@ -431,7 +419,6 @@ void boardAdd(state *s, board* b)
       s->size = s->size +1;
    }
 }
-
 
 bool isSolution(board *b, int height, int width)
 {

@@ -269,8 +269,8 @@ char* board2str(board* b, int height, int width)
    // instead of using fixed array declare, using malloc/calloc to create a new space for str!
    // char str[MAXSTR]; 
 
-   int maxLen = (height*width)+(height-1)+1;
-   char* tmp_str = (char*)malloc(maxLen*sizeof(char));
+   // int maxLen = (height*width)+(height-1)+1;
+   char* tmp_str = (char*)malloc(MAXSTR*sizeof(char));
    if(tmp_str == NULL){
       perror("board2str: Falled to allocate memory for board string.\n");
       exit(EXIT_FAILURE);

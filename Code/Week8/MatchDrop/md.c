@@ -13,6 +13,7 @@ bool file2str(const char* fname, char* str)
    char *format_str = toStringFormat(txt);
    strcpy(str, format_str);
    printf("format: %s\n", str);
+   free(txt);
    return true;
 }
 
@@ -213,7 +214,7 @@ char* getFileContent(const char* filename)
     strcat(fullContent, text);
   }
   // printf("Log: Full file content: %s\n",fullContent);
-
+  
   fclose(fp);
   return fullContent;
 }

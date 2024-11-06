@@ -7,12 +7,10 @@ bool file2str(const char* fname, char* str)
    }
    //readfile
    char* txt = getFileContent(fname);
-   // printf("%s\n",txt);
 
    //tostring
    char *format_str = toStringFormat(txt);
    strcpy(str, format_str);
-   printf("format: %s\n", str);
    free(txt);
    return true;
 }
@@ -31,7 +29,6 @@ state* str2state(const char* str)
    }
    board b;
    int str_len = strlen(str);
-   printf("str_len: %d \n", str_len);
    s->pointer = 0;
    b.moves = 0;
    b.hawk = str[0];
@@ -49,13 +46,7 @@ state* str2state(const char* str)
       s->board_height = r+1;
    }
 
-
-   // printf("b self:\n");
-   // printBoard(&b, s->board_height, s->board_width);
-
    boardAdd(s, &b);
-   // printf("parent b: \n");
-   // printBoards(s);
 
    return s;
 }
@@ -68,18 +59,19 @@ int solve(state* s, bool verbose)
    while(s->pointer < s->size) {
       int currentPointerIndex = s->pointer;
       int currentSize = s->size;
-      printf("currentPointerIndex: %d \n", currentPointerIndex);
-      printf("currentSize: %d \n", currentSize);
-      printf("---------------\n");
+      // printf("currentPointerIndex: %d \n", currentPointerIndex);
+      // printf("currentSize: %d \n", currentSize);
+      // printf("---------------\n");
 
       board* b = &s->boards[s->pointer];
-      // printBoard(b, height, width);
+      // printBoard(b, height, width, true);
       if(isSolution(b, height, width)){
          // if yes. print b->moves
          
          int moves = s->boards[s->pointer].moves;
          board* b = &s->boards[s->pointer];
-         printf("solution total moves:%d \n", moves);
+         // printf("solution total moves:%d \n", moves);
+
          // if verbose is true, track back to parents and print log
          if(verbose){
             printProcess(s, b);
@@ -103,58 +95,54 @@ void printProcess(state* s, board* final_b)
    int width = s->board_width;
    
    // get pointer, solution index
-   int solutionIdx = s->pointer;
-   printf("solutionIdx: %d\n", solutionIdx);
+   int solution_idx = s->pointer;
+   // printf("solution_idx: %d\n", solution_idx);
    int parent_idx = final_b->parent_idx;
    int moves = final_b->moves;
-   // int solutionArr[moves+1];
-   int* solutionArr = malloc((moves+1)*sizeof(int));
-   if(solutionArr == NULL){
+
+   int* solution_arr = malloc((moves+1)*sizeof(int));
+   if(solution_arr == NULL){
       fprintf(stderr, "Memory allocation failed.\n");
       exit(EXIT_FAILURE);
    }
-   solutionArr[0] = solutionIdx;
+   solution_arr[0] = solution_idx;
    int index = 0;
+
    // if parent idx not null, tracing back to previous parent 
    while(parent_idx != -1){
       index ++;
       // get parent idx, store in arr, record parent index
-      solutionArr[index] = parent_idx;
+      solution_arr[index] = parent_idx;
       // move to previous parent idx
       parent_idx = s->boards[parent_idx].parent_idx;
    }
 
-   // print parent index array
-   // for(int i=0; i<moves; i++){
-   //    printf("%d ",solutionArr[i]);
-   // }
    
    board* original_bd = &s->boards[0];
-   printf("RESULT--------\n");
-   printBoard(original_bd, height, width);
-   printf("--------\n");
+   // printf("RESULT--------\n");
+   printBoard(original_bd, height, width, false);
+   
+   // printf("--------\n");
    for(int i=moves-1; i>=0; i--){
-      int Boardindex = solutionArr[i];
-      printf("index: %d \n", Boardindex);
-      board* b = &s->boards[Boardindex];
-      printBoard(b, height, width);
-      printf("--------\n");
+      int board_idx = solution_arr[i];
+      board* b = &s->boards[board_idx];
+      printBoard(b, height, width, false);
+      // printf("--------\n");
    }
-   free(solutionArr);
+   free(solution_arr);
 }
 
 
-//TODO write testcase
 void test(void)
 {
    char str[MAXSTR];
    state* s;
 
+   // isSolution
    strcpy(str, "A-AAA-BBB-CCC-BBB");
    s = str2state(str);
    assert(isSolution(&s->boards[0], s->board_height, s->board_width)==0);
    free(s);
-
 
    strcpy(str, "A-ABC-ABC-ABC-CBA");
    s = str2state(str);
@@ -166,12 +154,38 @@ void test(void)
    assert(isSolution(&s->boards[0], s->board_height, s->board_width)==1);
    free(s);
 
+   //lockColumn
    strcpy(str, "A-ACC-ABB-ABC-ABC");
    s = str2state(str);
    assert(lockColumn(&s->boards[0], s->board_height, 0)==1);
    assert(lockColumn(&s->boards[0], s->board_height, 1)==0);
    free(s);
 
+
+   // isUniqueBoard
+   strcpy(str, "A-ACC-ABB-ABC-ABC");
+   s = str2state(str);
+
+   state* s2;
+   strcpy(str, "A-ABC-ABC-ABC-ABC");
+   s2 = str2state(str);
+   assert(isUniqueBoard(s, &s2->boards[0])==1);
+   assert(isUniqueBoard(s, &s->boards[0])==0);
+
+
+   // board2str
+   board b1 = {0, {{'X','O'}, {'O','X'}}, 'H', 0};
+   char* result1 = board2str(&b1, 2, 2);
+   assert(result1 != NULL);
+   assert(strcmp(result1, "XO-OX") == 0);
+   free(result1);
+
+   // toStringFormat
+   char test1[] = "Hello\nWorld\nTesting";
+   assert(strcmp(toStringFormat(test1), "Hello-World-Testing") == 0);
+
+   char test2[] = "Hello\nWorld\nTesting\n";
+   assert(strcmp(toStringFormat(test2), "Hello-World-Testing") == 0);
 
 }
 
@@ -200,72 +214,65 @@ char* getFileContent(const char* filename)
     return NULL;
   }
 
-  char *fullContent = malloc(1);
-  if(fullContent == NULL){
+  char *full_content = malloc(1);
+  if(full_content == NULL){
     perror("Warning: Unable to allocate memory.\n");
     fclose(fp);
     return NULL;
   }
-  fullContent[0] = '\0';
+  full_content[0] = '\0';
   char text[MAXBRDS];
   // read one line at a time
   while(fgets(text, sizeof(text), fp) != NULL){
-    // remove newline character if present
-   //  text[strcspn(text, "\n")] = '\0';
-    size_t old_len = strlen(fullContent);
+    size_t old_len = strlen(full_content);
     size_t new_len = old_len + strlen(text) + 1;
-    char *temp = realloc(fullContent, new_len);
+    char *temp = realloc(full_content, new_len);
     if(temp == NULL){
       perror("Unable to realloc memory.\n");
-      free(fullContent);
+      free(full_content);
       fclose(fp);
       return NULL;
     }
-    fullContent = temp;
-    strcat(fullContent, text);
+    full_content = temp;
+    strcat(full_content, text);
   }
   // printf("Log: Full file content: %s\n",fullContent);
 
   fclose(fp);
-  return fullContent;
+  return full_content;
 }
 
-/**
- H
- X H H I
- O I H I
- O O I X
- O X I X
 
- */
-
-void printBoard(board* b, int height, int width)
+void printBoard(board* b, int height, int width, bool debug_mode)
 {
-   printf("printBoard-----\n");
-   char hawk = b->hawk;
-   printf("hawk: %c \n", hawk);
+   if(debug_mode){
+      printf("printBoard-----\n");
+      char hawk = b->hawk;
+      printf("hawk: %c \n", hawk);
 
-   int moves = b-> moves;
-   printf("moves: %d \n", moves);
+      int moves = b-> moves;
+      printf("moves: %d \n", moves);
 
-   int parent = b->parent_idx;
+      int parent = b->parent_idx;
+      printf("parent: %d \n", parent);
+      printf("height: %d \n", height);
+      printf("width: %d \n",width);
+   }
 
-   printf("parent: %d \n", parent);
-   printf("height: %d \n", height);
-   printf("width: %d \n",width);
    for(int r=0; r<height; r++){
       for(int c=0; c<width; c++){
          printf("%c ", b->self[r][c]);
       }
       printf("\n");
    }
+   printf("\n");
 }
 
 void printBoards(state* s){
    printf("size %d \n", s->size);
    printf("pointer: %d\n", s->pointer);
    for(int i=0; i<s->size; i++){
-      printBoard(&s->boards[i], s->board_height, s->board_width); // send address, add &
+      printBoard(&s->boards[i], s->board_height, s->board_width, true);
    }
 }
 
@@ -273,13 +280,10 @@ char* board2str(board* b, int height, int width)
 {
 
    if(b == NULL){
+      fprintf(stderr, "Invalid board.\n");
       return NULL;
    }
-   // declare str here, but return str, it will automatically free
-   // instead of using fixed array declare, using malloc/calloc to create a new space for str!
-   // char str[MAXSTR]; 
 
-   // int maxLen = (height*width)+(height-1)+1;
    char* tmp_str = (char*)malloc(MAXSTR*sizeof(char));
    if(tmp_str == NULL){
       perror("board2str: Falled to allocate memory for board string.\n");
@@ -296,7 +300,6 @@ char* board2str(board* b, int height, int width)
       }
    }
    tmp_str[index] = '\0';
-   // printf("board2str Log: str: %s\n", tmp_str);
 
    return tmp_str;
 }
@@ -309,9 +312,8 @@ bool lockColumn(board* b, int height, int column)
       exit(EXIT_FAILURE);
    }
 
-   // check each column first, if the column is all match. lock it.
+   // check each column, if the column is match. lock it.
    bool is_same = true;
-
    for(int r=0; r<height-1; r++){
       if(b->self[r][column] != b->self[r+1][column]){
          is_same = false;
@@ -321,32 +323,7 @@ bool lockColumn(board* b, int height, int column)
 }
 
 
-/**
-A
-ABC
-ABC
-ABC
-CBA
 
-C
-ABC
-ABC
-ABC
-ABA
-
-B
-AAC
-ABC
-ABC
-CBA
-
-A
-ABA
-ABC
-ABC
-CBC
-
- */
 void generateMove(state* s)
 {
    if(s == NULL){
@@ -357,44 +334,34 @@ void generateMove(state* s)
    int height = s->board_height;
    int width = s->board_width;
 
-   // printBoard(currentBoard, height, width);
-   // get hawk
-   // put hawk in each column, get new hawk
-   // move all board
-   // printBoards(s);
-   // currentBoard.moves +=1;
-
-   // only gen the column are not the same!
+   // only gen the column if not the same!
    for(int c=0; c<width; c++){
-      board currentBoard = s->boards[s->pointer];
-      bool is_lock = lockColumn(&currentBoard, height, c);
-      // printf("is_lock:%s ", is_lock? "true":"false");
+      board current_board = s->boards[s->pointer];
+      bool is_lock = lockColumn(&current_board, height, c);
       if(!is_lock){
          // gen move
-         char hawk = currentBoard.hawk;
-         currentBoard.moves +=1;
-         char new_hawk = currentBoard.self[height-1][c];
+         char hawk = current_board.hawk;
+         current_board.moves +=1;
+         char new_hawk = current_board.self[height-1][c];
          for(int r=height-1; r>=0; r--){
             if(r == 0){
-               currentBoard.self[r][c] = hawk;
+               current_board.self[r][c] = hawk;
             } else {
-               currentBoard.self[r][c] = currentBoard.self[r-1][c];
+               current_board.self[r][c] = current_board.self[r-1][c];
             }
-            currentBoard.hawk = new_hawk;
+            current_board.hawk = new_hawk;
          }
-         currentBoard.parent_idx = s->pointer;
+         current_board.parent_idx = s->pointer;
 
-         // check if 2D array isExist in state board[]
-         bool is_unique_board = isUniqueBoard(s, &currentBoard);
-         // printf("Is unique board: %s\n", is_unique_board ? "true" : "false");
+         bool is_unique_board = isUniqueBoard(s, &current_board);
          // gen new struct board (2D array, hawk, parent_idx, moves)
          // if not isExist in current board[], boardAdd
          if(is_unique_board){
-            boardAdd(s, &currentBoard);
+            boardAdd(s, &current_board);
          }
-         // printBoard(&currentBoard, height, width);
-         //check solution again, update state. once find, stop gen new move in board array
-         if(isSolution(&currentBoard, height, width) == 1){
+
+         // check solution again, update state. once find, stop gen new move in board array
+         if(isSolution(&current_board, height, width) == 1){
             s->find_solution = true;
             return ;
          }
@@ -411,7 +378,7 @@ bool isUniqueBoard(state* s, board* b)
    int size = s->size;
    int height = s->board_height;
    int width = s->board_width;
-   printf("size:%d \n",size);
+   // printf("size:%d \n",size);
    char* current_board_str = board2str(b, height, width);
    if (current_board_str == NULL) {
       fprintf(stderr, "Error: Failed to generate string for current board.\n");
@@ -466,15 +433,6 @@ void boardAdd(state *s, board* b)
 }
 
 
-/*
-C
-height 3
-0-2
-ABC
-ABC
->ABC
->ABA
-*/
 bool isSolution(board *b, int height, int width)
 {
    for(int c=0; c<width; c++){

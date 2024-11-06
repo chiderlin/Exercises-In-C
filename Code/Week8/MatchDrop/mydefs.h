@@ -53,19 +53,92 @@ typedef struct state state;
 
 #include "md.h"
 
+/*
+    Read filename,
+    if we can open it, return txt content.
+    Otherwise, return NULL.
+*/
 char* getFileContent(const char* filename);
+
+
+/*
+    Format conversion from files.
+    Replacing newline to -, skip last newline.
+*/
 char* toStringFormat(char* txt);
-void printBoard(board* b, int height, int width);
+
+
+/*
+    print struct board's board, if debub_mode is true,
+    will print more information in struct board,
+    otherwise, only print board 2D array.
+*/
+void printBoard(board* b, int height, int width, bool debug_mode);
+
+
+/*
+  print struct state infomation, also board 2D array.
+*/
 void printBoards(state* s);
+
+
+/*
+Format conversion from board to string,
+to compare different board.
+*/
 char* board2str(board* b, int height, int width);
+
+
+/* 
+    Check each column, if the column is match. 
+    Lock it.
+*/
 bool lockColumn(board* b, int height, int column);
+
+
+/*
+    1. Generate new child board
+    2. Check if it's unique in board[], 
+    3. if it is unique, push new child board into board[].
+    4. check if it is solution, if it is,
+    update struct state find_solution to TRUE.
+ */
 void generateMove(state* s);
+
+
+/*
+    Moving struct state board[] pointer.
+*/
 void movePointer(state* s);
+
+
+/*
+    check if 2D array isExist in state board[].
+    return true if deplicate, else return false.
+*/
 bool isUniqueBoard(state* s, board* b);
+
+
+/*
+    Check if it is final soluction.
+*/
 bool isSolution(board *b, int height, int width);
+
+
+/*
+    If solve function verbose is true, invoke 
+    this function, printing solution process.
+*/
 void printProcess(state* s, board* final_b);
 
+
+/*
+    Initilize new struct state.
+*/
 state* stateInit(void);
 
-// add element
+
+/*
+    Add new child board into board[].
+ */
 void boardAdd(state* s, board* b);

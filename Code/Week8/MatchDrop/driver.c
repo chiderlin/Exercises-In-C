@@ -38,18 +38,18 @@ int main(void)
    // assert(solve(s, false)==-1);
    // free(s);
 
-   // assert(file2str("10moves.brd", str));
-   // s = str2state(str);
-   // assert(solve(s, false)==10);
-   // // solve(s, false);
-   // // printBoards(s);
-   // free(s);
-
-   assert(file2str("9moves.brd", str));
+   assert(file2str("10moves.brd", str));
    s = str2state(str);
+   assert(solve(s, false)==10);
    // solve(s, false);
-   assert(solve(s, false)==9);
+   // printBoards(s);
    free(s);
+
+   // assert(file2str("9moves.brd", str));
+   // s = str2state(str);
+   // assert(solve(s, false)==9);
+   // // solve(s, false); 
+   // free(s);
 
    // assert(file2str("11moves.brd", str));
    // s = str2state(str);

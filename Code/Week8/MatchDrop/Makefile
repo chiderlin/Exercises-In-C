@@ -10,8 +10,8 @@ SANITIZE := $(GENFLAGS) -g3 -fsanitize=address -fsanitize=undefined
 
 # In the labs you might use clang, but make sure to try gcc too
 # (sometimes bugs show up 'better' using one compiler than another
-# CC := gcc
-CC := clang
+CC := gcc
+# CC := clang
 
 md: driver.c md.c md.h mydefs.h
 	$(CC) driver.c md.c $(OPTIM) -o md

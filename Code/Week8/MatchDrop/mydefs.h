@@ -12,8 +12,6 @@
 
 #define BRDSZ 6
 #define MAXBRDS 500000
-#define COLLTYPE "Fixed"
-#define FIXEDSIZE 5000
 #define MAXSTR (BRDSZ*BRDSZ+BRDSZ+2)
 
 /*
@@ -49,8 +47,6 @@ struct state
     int size;
     unsigned int board_height;
     unsigned int board_width;
-    int combo_lock;
-    int lock_point;
 };
 
 typedef struct board board;
@@ -75,12 +71,3 @@ state* stateInit(void);
 
 // add element
 void boardAdd(state* s, board* b);
-
-// isexist
-bool boardIsExist(state* s, board* b);
-
-// size of coll
-int stateSize(state *s);
-
-// clear all space used
-bool stateFree(state *s);

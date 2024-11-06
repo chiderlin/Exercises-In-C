@@ -402,6 +402,10 @@ bool isUniqueBoard(state* s, board* b)
    int width = s->board_width;
    printf("size:%d \n",size);
    char* current_board_str = board2str(b, height, width);
+   if (current_board_str == NULL) {
+      fprintf(stderr, "Error: Failed to generate string for current board.\n");
+      return false;
+   }
    //run through boards[] check if currentBoard is new one or already exists
    for(int i=0; i<size; i++){
       char* boards_str = board2str(&s->boards[i], height, width);
@@ -416,6 +420,8 @@ bool isUniqueBoard(state* s, board* b)
       //    return false;
       // }
       if(strcmp(current_board_str, boards_str) == 0){
+         free(boards_str);
+         free(current_board_str);
          // printf("Board is not unique.\n");
          return false;
       }

@@ -62,13 +62,6 @@ char* getFileContent(const char* filename);
 
 
 /*
-    skip hwak, compare the rest of the board,
-    only all the row are same length will return true.
-    otherwise false.
-*/
-bool checkLineSameLength(char *lines[], int num_lines);
-
-/*
     Format conversion from files.
     Replacing newline to -, skip last newline.
 */

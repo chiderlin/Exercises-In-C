@@ -7,6 +7,18 @@ bool file2str(const char* fname, char* str)
    }
    //readfile
    char* txt = getFileContent(fname);
+   char *lines[BRDSZ];
+   int num_lines = 0;
+
+   char *line = strtok(txt, "\n");
+   while(line != NULL && num_lines < BRDSZ){
+      lines[num_lines] = line;
+      line = strtok(NULL, "\n");
+   }
+
+   if(!checkLineSameLength(lines, num_lines)){
+      return false;
+   }
 
    //tostring
    char *format_str = toStringFormat(txt);
@@ -177,9 +189,45 @@ void test(void)
    char test2[] = "Hello\nWorld\nTesting\n";
    assert(strcmp(toStringFormat(test2), "Hello-World-Testing") == 0);
 
+   // checkLineSameLength
+   char *lines[] = {
+      "O",
+      "OIH",
+      "OOIX",
+      "HXI",
+      "XX"
+   };
+   int num_line = 5;
+   assert(checkLineSameLength(lines, num_line) == 0);
+
+   char *lines_same[] = {
+      "X",
+      "OHHI",
+      "OIHI",
+      "OOIX"
+   };
+   int num_lines_same = 4;
+   assert(checkLineSameLength(lines_same, num_lines_same) == 1);
+
 }
 
 /* Lots of other functions, as required */
+
+bool checkLineSameLength(char *lines[], int num_lines)
+{
+   if(num_lines <= 1){
+      return 1;
+   }
+   size_t first_line_len = strlen(lines[1]);
+   for(int i=1; i<num_lines; i++){
+      if(strlen(lines[i]) != first_line_len){
+         printf("Error: Line %d has a different length.\n", i+1);
+         return false;
+      }
+   }
+   return true;
+}
+
 
 char* toStringFormat(char *txt)
 {

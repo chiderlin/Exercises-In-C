@@ -73,4 +73,8 @@ unsigned dict_cmp(dict* p1, dict* p2);
    below this node, adding these letters to 'ret'.
    (In the event of ties, use the word that comes
    first alphabetically). */
+   // car, cat
+   // c->a-> 這邊可以去判斷r or t 哪個更freq. 如果r, return "r"
+   // then it will auto complete "car"
+   // p: root tree, wd: search, ret: word to complete, 
 void dict_autocomplete(const dict* p, const char* wd, char* ret);

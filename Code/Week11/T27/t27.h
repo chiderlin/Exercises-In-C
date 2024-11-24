@@ -36,7 +36,7 @@ dict* dict_init(void);
    is already in the dictionary.
    True otherwise.
 */
-bool dict_addword(dict* p, const char* str);
+bool dict_addword(dict* p, const char* wd);
 
 /* The total number of nodes
    in the tree. */
@@ -78,3 +78,5 @@ unsigned dict_cmp(dict* p1, dict* p2);
    // then it will auto complete "car"
    // p: root tree, wd: search, ret: word to complete, 
 void dict_autocomplete(const dict* p, const char* wd, char* ret);
+
+void test(void);

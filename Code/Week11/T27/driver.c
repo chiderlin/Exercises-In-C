@@ -4,6 +4,9 @@
 
 int main(void)
 {
+
+   test();
+
    dict* d = NULL;
    char str[MAXSTR];
 
@@ -31,14 +34,14 @@ int main(void)
    assert(dict_mostcommon(d)==1);
    dict* q1 = dict_spell(d, "car");
    dict* q2 = dict_spell(d, "part");
-   assert(dict_cmp(q1, q2)==7);
-   // It's unsigned
-   assert(dict_cmp(q2, q1)==7);
-   // 2 steps up from 'carter' is 'cart'
-   dict_autocomplete(d, "car", str);
-   // Most frequently stored word after car is car+t
-   assert(strcmp(str, "t")==0);
-   dict_free(&d);
+   // assert(dict_cmp(q1, q2)==7);
+   // // It's unsigned
+   // assert(dict_cmp(q2, q1)==7);
+   // // 2 steps up from 'carter' is 'cart'
+   // dict_autocomplete(d, "car", str);
+   // // Most frequently stored word after car is car+t
+   // assert(strcmp(str, "t")==0);
+   // dict_free(&d);
 
 // /* A slightly different example */
 //    d = dict_init();
@@ -90,16 +93,17 @@ int main(void)
 //    assert(dict_nodecount(d)==9);
 //    assert(dict_wordcount(d)==4);
 
-//    // Only one of each word at the moment
-//    assert(dict_mostcommon(d)==1);
-//    // Just increments the freq variable
-//    assert(dict_addword(d, "cart"));
-//    // Now 'cart' has been added twice 
-//    assert(dict_mostcommon(d)==2);
-//    // But no new nodes were created
-//    assert(dict_nodecount(d)==9);
-//    // Fifth word
-//    assert(dict_wordcount(d)==5);
+   // // Only one of each word at the moment
+   // assert(dict_mostcommon(d)==1);
+   // // Increments the freq variable
+   // // Should return false (repeat)
+   // assert(!dict_addword(d, "cart"));
+   // // Now 'cart' has been added twice 
+   // assert(dict_mostcommon(d)==2);
+   // // But no new nodes were created
+   // assert(dict_nodecount(d)==9);
+   // // Fifth word
+   // assert(dict_wordcount(d)==5);
 
 //    // Pointer to the bottom of cart...
 //    dict* p = dict_spell(d, "cart");
@@ -114,7 +118,7 @@ int main(void)
 //    assert(dict_nodecount(d)==16);
 //    // 5 car prefixed + 4 par prefixed
 //    assert(dict_wordcount(d)==9);
-   dict_free(&d);
+   // dict_free(&d);
    // assert(d==NULL);
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/

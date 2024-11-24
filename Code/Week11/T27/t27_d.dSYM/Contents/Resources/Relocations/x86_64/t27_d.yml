@@ -1,0 +1,49 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     t27_d
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000009D0, symSize: 0x860 }
+  - { offsetInCU: 0x3B, offset: 0x3B, size: 0x8, addend: 0x0, symName: _.str, symObjAddr: 0x8E0, symBinAddr: 0x1000037E0, symSize: 0x0 }
+  - { offsetInCU: 0x66, offset: 0x66, size: 0x8, addend: 0x0, symName: ___func__.main, symObjAddr: 0x900, symBinAddr: 0x100003800, symSize: 0x0 }
+  - { offsetInCU: 0x94, offset: 0x94, size: 0x8, addend: 0x0, symName: _.str.2, symObjAddr: 0x920, symBinAddr: 0x100003820, symSize: 0x0 }
+  - { offsetInCU: 0xB1, offset: 0xB1, size: 0x8, addend: 0x0, symName: _.str.3, symObjAddr: 0x960, symBinAddr: 0x100003860, symSize: 0x0 }
+  - { offsetInCU: 0xCE, offset: 0xCE, size: 0x8, addend: 0x0, symName: _.str.4, symObjAddr: 0x9A0, symBinAddr: 0x1000038A0, symSize: 0x0 }
+  - { offsetInCU: 0xDF, offset: 0xDF, size: 0x8, addend: 0x0, symName: _.str.5, symObjAddr: 0x9E0, symBinAddr: 0x1000038E0, symSize: 0x0 }
+  - { offsetInCU: 0xF0, offset: 0xF0, size: 0x8, addend: 0x0, symName: _.str.6, symObjAddr: 0xA00, symBinAddr: 0x100003900, symSize: 0x0 }
+  - { offsetInCU: 0x10D, offset: 0x10D, size: 0x8, addend: 0x0, symName: _.str.7, symObjAddr: 0xA40, symBinAddr: 0x100003940, symSize: 0x0 }
+  - { offsetInCU: 0x12A, offset: 0x12A, size: 0x8, addend: 0x0, symName: _.str.8, symObjAddr: 0xA60, symBinAddr: 0x100003960, symSize: 0x0 }
+  - { offsetInCU: 0x13B, offset: 0x13B, size: 0x8, addend: 0x0, symName: _.str.9, symObjAddr: 0xAA0, symBinAddr: 0x1000039A0, symSize: 0x0 }
+  - { offsetInCU: 0x14C, offset: 0x14C, size: 0x8, addend: 0x0, symName: _.str.10, symObjAddr: 0xAC0, symBinAddr: 0x1000039C0, symSize: 0x0 }
+  - { offsetInCU: 0x15D, offset: 0x15D, size: 0x8, addend: 0x0, symName: _.str.11, symObjAddr: 0xB00, symBinAddr: 0x100003A00, symSize: 0x0 }
+  - { offsetInCU: 0x17A, offset: 0x17A, size: 0x8, addend: 0x0, symName: _.str.12, symObjAddr: 0xB40, symBinAddr: 0x100003A40, symSize: 0x0 }
+  - { offsetInCU: 0x197, offset: 0x197, size: 0x8, addend: 0x0, symName: _.str.13, symObjAddr: 0xB60, symBinAddr: 0x100003A60, symSize: 0x0 }
+  - { offsetInCU: 0x1A8, offset: 0x1A8, size: 0x8, addend: 0x0, symName: _.str.14, symObjAddr: 0xBA0, symBinAddr: 0x100003AA0, symSize: 0x0 }
+  - { offsetInCU: 0x1C5, offset: 0x1C5, size: 0x8, addend: 0x0, symName: _.str.15, symObjAddr: 0xBC0, symBinAddr: 0x100003AC0, symSize: 0x0 }
+  - { offsetInCU: 0x1E2, offset: 0x1E2, size: 0x8, addend: 0x0, symName: _.str.16, symObjAddr: 0xC00, symBinAddr: 0x100003B00, symSize: 0x0 }
+  - { offsetInCU: 0x1FF, offset: 0x1FF, size: 0x8, addend: 0x0, symName: _.str.17, symObjAddr: 0xC20, symBinAddr: 0x100003B20, symSize: 0x0 }
+  - { offsetInCU: 0x210, offset: 0x210, size: 0x8, addend: 0x0, symName: _.str.18, symObjAddr: 0xC40, symBinAddr: 0x100003B40, symSize: 0x0 }
+  - { offsetInCU: 0x219, offset: 0x219, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x1000009D0, symSize: 0x860 }
+  - { offsetInCU: 0x26, offset: 0x339, size: 0x8, addend: 0x0, symName: _dict_init, symObjAddr: 0x0, symBinAddr: 0x1000012B0, symSize: 0x3C0 }
+  - { offsetInCU: 0x3B, offset: 0x34E, size: 0x8, addend: 0x0, symName: _.str, symObjAddr: 0x31C0, symBinAddr: 0x100003B60, symSize: 0x0 }
+  - { offsetInCU: 0x66, offset: 0x379, size: 0x8, addend: 0x0, symName: _.str.1, symObjAddr: 0x31E0, symBinAddr: 0x100003B80, symSize: 0x0 }
+  - { offsetInCU: 0x83, offset: 0x396, size: 0x8, addend: 0x0, symName: _.str.2, symObjAddr: 0x3200, symBinAddr: 0x100003BA0, symSize: 0x0 }
+  - { offsetInCU: 0x94, offset: 0x3A7, size: 0x8, addend: 0x0, symName: _.str.3, symObjAddr: 0x3220, symBinAddr: 0x100003BC0, symSize: 0x0 }
+  - { offsetInCU: 0xB1, offset: 0x3C4, size: 0x8, addend: 0x0, symName: _.str.4, symObjAddr: 0x3260, symBinAddr: 0x100003C00, symSize: 0x0 }
+  - { offsetInCU: 0xCE, offset: 0x3E1, size: 0x8, addend: 0x0, symName: _.str.5, symObjAddr: 0x3280, symBinAddr: 0x100003C20, symSize: 0x0 }
+  - { offsetInCU: 0xEB, offset: 0x3FE, size: 0x8, addend: 0x0, symName: _.str.6, symObjAddr: 0x32A0, symBinAddr: 0x100003C40, symSize: 0x0 }
+  - { offsetInCU: 0xFC, offset: 0x40F, size: 0x8, addend: 0x0, symName: _.str.7, symObjAddr: 0x32C0, symBinAddr: 0x100003C60, symSize: 0x0 }
+  - { offsetInCU: 0x119, offset: 0x42C, size: 0x8, addend: 0x0, symName: _.str.8, symObjAddr: 0x32E0, symBinAddr: 0x100003C80, symSize: 0x0 }
+  - { offsetInCU: 0x136, offset: 0x449, size: 0x8, addend: 0x0, symName: _.str.9, symObjAddr: 0x3300, symBinAddr: 0x100003CA0, symSize: 0x0 }
+  - { offsetInCU: 0x153, offset: 0x466, size: 0x8, addend: 0x0, symName: _.str.10, symObjAddr: 0x3340, symBinAddr: 0x100003CE0, symSize: 0x0 }
+  - { offsetInCU: 0x168, offset: 0x47B, size: 0x8, addend: 0x0, symName: _dict_init, symObjAddr: 0x0, symBinAddr: 0x1000012B0, symSize: 0x3C0 }
+  - { offsetInCU: 0x1AC, offset: 0x4BF, size: 0x8, addend: 0x0, symName: _dict_addword, symObjAddr: 0x3C0, symBinAddr: 0x100001670, symSize: 0xAE0 }
+  - { offsetInCU: 0x236, offset: 0x549, size: 0x8, addend: 0x0, symName: _create_node, symObjAddr: 0xEA0, symBinAddr: 0x100002150, symSize: 0x20 }
+  - { offsetInCU: 0x26C, offset: 0x57F, size: 0x8, addend: 0x0, symName: _print_dict, symObjAddr: 0xEC0, symBinAddr: 0x100002170, symSize: 0x520 }
+  - { offsetInCU: 0x2AC, offset: 0x5BF, size: 0x8, addend: 0x0, symName: _dict_free, symObjAddr: 0x13E0, symBinAddr: 0x100002690, symSize: 0x150 }
+  - { offsetInCU: 0x2D0, offset: 0x5E3, size: 0x8, addend: 0x0, symName: _dict_wordcount, symObjAddr: 0x1530, symBinAddr: 0x1000027E0, symSize: 0x320 }
+  - { offsetInCU: 0x322, offset: 0x635, size: 0x8, addend: 0x0, symName: _dict_nodecount, symObjAddr: 0x1850, symBinAddr: 0x100002B00, symSize: 0x1F0 }
+  - { offsetInCU: 0x374, offset: 0x687, size: 0x8, addend: 0x0, symName: _dict_spell, symObjAddr: 0x1A40, symBinAddr: 0x100002CF0, symSize: 0x600 }
+  - { offsetInCU: 0x404, offset: 0x717, size: 0x8, addend: 0x0, symName: _dict_mostcommon, symObjAddr: 0x2040, symBinAddr: 0x1000032F0, symSize: 0x380 }
+  - { offsetInCU: 0x472, offset: 0x785, size: 0x8, addend: 0x0, symName: _dict_cmp, symObjAddr: 0x23C0, symBinAddr: 0x100003670, symSize: 0x20 }
+  - { offsetInCU: 0x4A8, offset: 0x7BB, size: 0x8, addend: 0x0, symName: _dict_autocomplete, symObjAddr: 0x23E0, symBinAddr: 0x100003690, symSize: 0x20 }
+...

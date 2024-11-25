@@ -325,7 +325,6 @@ dict* get_tail_wd_node(const dict* p, char*wd)
   return curr;
 }
 
-//TODO
 // CHALLENGE2
 // wd:car
 // ret:t
@@ -403,47 +402,6 @@ void find_max_freq(const dict* node, const dict** result_node, int* result_freq,
   }
 }
 
-//-----------------
-// void dict_autocomplete(const dict* p, const char* wd, char* ret)
-// {
-//   if(p == NULL || wd == NULL || ret == NULL){
-//     printf("Invalid input.\n");
-//     return;
-//   }
-//   dict* curr = get_tail_wd_node(p, wd); // curr: r
-  
-//   // 找下層是否有freq, 且最高的
-//   // 沒有的話再往下層找
-//   // 找到後,取出字, 然後up到r的node
-//   // 把字依序放入backward放入ret 
-//   // strcpy to ret
-//   // until最底都沒有，就返回空值“”
-//   int max_freq = 0;
-//   int max_index = -1;
-//   int next_index = 0;
-//   bool search_child_node = true;
-//   while(search_child_node){
-//     for(int i=0; i<ALPHA; i++){
-//       if(curr->dwn[i] != NULL && curr->freq > max_freq){
-//         max_freq = curr->freq;
-//         max_index = i;
-//         printf("max_freq:%i\n",max_freq);
-//         printf("max_index:%i\n",max_index);
-//         curr = curr->dwn[i];
-//       }
-//     }
-//     if(max_freq != 0){
-//       search_child_node = false;
-//     } else {
-//       curr = curr->dwn[next_index++];
-//     }
-//   }
-//   // curr 目前是找到結果那層
-//   // 往上推
-//   // curr->up
-//   print_word_from_node(curr);
-  
-// }
 
 void test(void)
 {

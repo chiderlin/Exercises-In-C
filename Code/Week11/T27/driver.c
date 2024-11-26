@@ -106,7 +106,7 @@ int main(void)
    // But no new nodes were created
    assert(dict_nodecount(d)==9);
    // Fifth word
-   wd_count = dict_wordcount(d);
+   // wd_count = dict_wordcount(d);
    // printf("wd_count:%i\n", wd_count);
    assert(dict_wordcount(d)==5);
 

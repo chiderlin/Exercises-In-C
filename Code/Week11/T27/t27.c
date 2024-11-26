@@ -325,7 +325,7 @@ dict* get_tail_wd_node(const dict* p, const char*wd)
     char c = tolower(wd[i]);
     int index = c - 'a';
     if(index<0 || index > ALPHA || curr->dwn[index]== NULL){
-      printf("Prefix not found.\n");
+      // printf("Prefix not found.\n");
       return NULL;
     }
     curr = curr->dwn[index]; // move to child

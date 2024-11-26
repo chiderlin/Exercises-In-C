@@ -26,12 +26,7 @@ int main(void)
    assert(dict_addword(d, "cart"));
    assert(dict_addword(d, "part"));
    assert(dict_nodecount(d)==9);
-   // int cnt = dict_nodecount(d);
-   // printf("cnt:%i\n", cnt);
    assert(dict_wordcount(d)==3);
-   // int wd_count = dict_wordcount(d);
-   // printf("wd_count:%i\n", wd_count);
-
    assert(dict_mostcommon(d)==1);
    dict* q1 = dict_spell(d, "car");
    dict* q2 = dict_spell(d, "part");
@@ -106,8 +101,6 @@ int main(void)
    // But no new nodes were created
    assert(dict_nodecount(d)==9);
    // Fifth word
-   // wd_count = dict_wordcount(d);
-   // printf("wd_count:%i\n", wd_count);
    assert(dict_wordcount(d)==5);
 
    // Pointer to the bottom of cart...

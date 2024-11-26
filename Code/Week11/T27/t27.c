@@ -187,10 +187,10 @@ unsigned dict_cmp(dict* p1, dict* p2)
   // print_word_from_node(p1);
   // print_word_from_node(p2);
   char* str1 = get_dict_word(p1);
-  printf("Word1: %s\n", str1);
+  // printf("Word1: %s\n", str1);
 
   char* str2 = get_dict_word(p2);
-  printf("Word2: %s\n", str2);
+  // printf("Word2: %s\n", str2);
   
 
   int index = find_first_diff(str1, str2);
@@ -199,7 +199,7 @@ unsigned dict_cmp(dict* p1, dict* p2)
   }
 
   int step = sum_steps(str1, str2, index);
-  printf("step: %i\n", step);
+  // printf("step: %i\n", step);
 
   free(str1);
   free(str2);

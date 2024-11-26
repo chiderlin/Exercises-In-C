@@ -18,7 +18,7 @@ rund: t27_d
 	./t27_d
 
 ext: Extension/ext.c ./driverext.c Extension/ext.h
-	gcc driverext.c Extension/ext.c -IExtension -I.. -I. $(DEBUG) -o ext
+	gcc driverext.c Extension/ext.c -IExtension -I.. -I. $(OPTIM) -o ext
 
 zip:
 	zip -r t27.zip t27.c ./Extension

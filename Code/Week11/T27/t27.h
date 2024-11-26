@@ -71,8 +71,9 @@ unsigned dict_cmp(dict* p1, dict* p2);
    For dictionary 'p', and word 'wd', find the
    path down to the most frequently used word
    below this node, adding these letters to 'ret'.
-   (In the event of ties, use the word that comes
-   first alphabetically). */
+   In the event of ties, use the word that comes
+   first alphabetically. Treat the apostrophe as
+   alphabetically greater than all letters */
    // car, cat
    // c->a-> 這邊可以去判斷r or t 哪個更freq. 如果r, return "r"
    // then it will auto complete "car"

@@ -26,10 +26,10 @@ int main(void)
    assert(dict_addword(d, "cart"));
    assert(dict_addword(d, "part"));
    assert(dict_nodecount(d)==9);
-   int cnt = dict_nodecount(d);
+   // int cnt = dict_nodecount(d);
    // printf("cnt:%i\n", cnt);
    assert(dict_wordcount(d)==3);
-   int wd_count = dict_wordcount(d);
+   // int wd_count = dict_wordcount(d);
    // printf("wd_count:%i\n", wd_count);
 
    assert(dict_mostcommon(d)==1);

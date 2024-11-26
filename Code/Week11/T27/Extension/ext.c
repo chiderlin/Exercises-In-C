@@ -32,6 +32,7 @@ bool dict_addword(dict* t, const char* wd)
     if(strcmp(curr->key, lower_str) == 0){
       curr->freq++;
       t->size++;
+      free(lower_str);
       return false;
     }
     curr = curr->next;
@@ -40,6 +41,7 @@ bool dict_addword(dict* t, const char* wd)
   node* new_node = (node*)malloc(sizeof(node));
   if(!new_node){
     perror("Failed to allocate memory for new node");
+    free(lower_str);
     return false;
   }
   strcpy(new_node->key, lower_str);
@@ -71,6 +73,7 @@ dict* dict_spell(const dict* t, const char* str)
 
   while(curr != NULL){
     if(strcmp(curr->key, lower_str)==0){
+      free(lower_str);
       return (dict*)curr;
     }
     curr = curr->next;

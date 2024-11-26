@@ -2,14 +2,37 @@
 #define MAXSTR 50
 // 'Internal' function prototypes 
 // ...
+
+/* When adding new word, 
+  will create new child nodes from root node.
+ */
 dict* create_child_node(dict* p);
+
+
+/* Run through all the node,
+  to get the word (stringt type).
+*/
+char* get_dict_word(dict* node);
+
+
+/* Compare 2 strings, 
+  return the first differences index.
+*/
+int find_first_diff(char* str1, char* str2);
+
+
+/*  Calulate function on how many steps to move by comparing 2 words.*/
+int sum_steps(char* str1, char* str2, int index);
+
+
+/* Get last node of the wd argument.*/
+dict* get_tail_wd_node(const dict* p, const char*wd);
+
+/*  Find the most frequent child node in order to complete the spell. */
+void find_max_freq(dict* node, dict** result_node, int* result_freq, bool recursive);
 void print_dict(dict* p);
 void print_word_from_node(dict* node);
-char* get_dict_word(dict* node);
-int find_first_diff(char* str1, char* str2);
-int sum_steps(char* str1, char* str2, int index);
-dict* get_tail_wd_node(const dict* p, const char*wd);
-void find_max_freq(dict* node, dict** result_node, int* result_freq, bool recursive);
+
 
 dict* dict_init(void)
 {
@@ -63,28 +86,6 @@ bool dict_addword(dict* p, const char* wd)
   // print_dict(curr);
   return true;
 }
-
-void print_dict(struct dict* d) {
-    if (d == NULL) return;
-    printf("Terminal: %s\n", d->terminal? "true":"false");
-    printf("Frequency: %d\n", d->freq);
-    // Print the 'up' pointer (parent)
-    if (d->up != NULL) {
-        printf("Parent exists:\n");
-        print_dict(d->up);  // Recursively print the parent
-    } else {
-        printf("No parent (this is the root).\n");
-    }
-        
-    for (int i = 0; i < ALPHA; i++) {
-        // Print down pointers (children)
-        if (d->dwn[i] != NULL) {
-            printf("Child[%d] exists.\n", i);
-        }
-    }
-    
-}
-
 
 dict* create_child_node(dict* p)
 {
@@ -206,137 +207,9 @@ unsigned dict_cmp(dict* p1, dict* p2)
   return step;
 }
 
-int sum_steps(char* str1, char* str2, int index)
-{  
-  int step = 0;
-  int len1 = strlen(str1); //cat 3
-  int len2 = strlen(str2); //car 3
-  // printf("index: %i\n", index); //idx=2
-
-  int str1_total_index = len1-1; // 2
-  int str2_total_index = len2-1; // 2
-  if(str1_total_index-index >= 0){
-    step += str1_total_index - index + 1; // 0+1
-  }
-  if(str2_total_index-index >= 0){
-    step += str2_total_index - index + 1; // 0+1
-  }
-
-  // car & cart: 1
-  // cat & cart: 3
-  // car & cat: 2
-  // car & part: 7
-  // idx1 len1-1 = 2
-  // idx2 len2-1 = 3
-  return step;
-}
-
-int find_first_diff(char* str1, char* str2)
-{
-  int index = 0;
-  while(str1[index] != '\0' && str2[index] != '\0'){
-    if(str1[index] != str2[index]){
-      return index;
-    }
-    index++;
-  }
-
-  // one str comes to the end, return the index.
-  if(str1[index] != str2[index]){
-    return index;
-  }
-
-  return -1; // same word
-
-}
-
-
-// p1: dict* r (r->a->c)
-// p2: dict* t (t->r->a->p)
-char* get_dict_word(dict* node)
-{
-  char* str = malloc(1);
-  if(!str){
-    perror("Failed to allocate memory");
-    exit(EXIT_FAILURE);
-  }
-
-  int length = 0;
-  while(node != NULL && node->up != NULL){
-    int index = 0;
-    dict* parent = node->up;
-    while(index < ALPHA && parent->dwn[index] != node){
-      index++;
-    }
-    if(index < ALPHA){
-      char* temp = realloc(str, length+2); //+2 for the new char and '\0'
-      if(!temp){
-        free(str);
-        perror("Failed to reallocate memory");
-        exit(EXIT_FAILURE);
-      }
-      str = temp;
-      str[length++] = 'a' + index;
-    }
-
-    node = parent;
-  }
-  str[length] = '\0';
-
-  // reverse the string since it's constructed backwards
-  for(int i=0; i<length/2; i++){
-    char temp = str[i];
-    str[i] = str[length-i-1];
-    str[length-i-1] = temp;
-  }
-  // printf("Word: %s\n", str);
-  return str;
-}
-
-
-//OK: 原本dict_spell()沒有return curr, 導致印出來一直是原本的dict* p
-void print_word_from_node(dict* node)
-{
-  if(node == NULL) return;
-  while(node != NULL && node->up != NULL){
-    int index = 0;
-    dict* parent = node->up;
-    while(index < ALPHA && parent->dwn[index] != node){
-      index++;
-    }
-    // printf("index value: %i\n", index);
-    if(index < ALPHA){
-      char current_char = 'a' + index;
-      if(index == 26){
-        current_char = '\'';
-      }
-      printf("current_char: %c\n", current_char);
-    }
-
-    // move backward to previous node
-    node = parent;
-  }
-}
-
-dict* get_tail_wd_node(const dict* p, const char*wd)
-{
-  dict* curr = (dict*)p;
-  for(int i=0; wd[i] != '\0'; i++){
-    char c = tolower(wd[i]);
-    int index = c - 'a';
-    if(index<0 || index > ALPHA || curr->dwn[index]== NULL){
-      // printf("Prefix not found.\n");
-      return NULL;
-    }
-    curr = curr->dwn[index]; // move to child
-  }
-  return curr;
-}
-
 // CHALLENGE2
 // wd:car
 // ret:t
-
 void dict_autocomplete(const dict* p, const char* wd, char* ret)
 {
   if(p==NULL || wd==NULL || ret==NULL){
@@ -398,7 +271,6 @@ void find_max_freq(dict* node, dict** result_node, int* result_freq, bool recurs
   }
 }
 
-
 void test(void)
 {
   dict* d = dict_init();
@@ -451,4 +323,143 @@ void test(void)
 
   free(node);
   free(n);
+}
+
+
+// car & cart: 1
+// cat & cart: 3
+// car & cat: 2
+// car & part: 7
+int sum_steps(char* str1, char* str2, int index)
+{  
+  int step = 0;
+  int len1 = strlen(str1); 
+  int len2 = strlen(str2); 
+  // printf("index: %i\n", index); //idx=2
+
+  int str1_total_index = len1-1;
+  int str2_total_index = len2-1;
+  if(str1_total_index-index >= 0){
+    step += str1_total_index - index + 1;
+  }
+  if(str2_total_index-index >= 0){
+    step += str2_total_index - index + 1;
+  }
+  return step;
+}
+
+int find_first_diff(char* str1, char* str2)
+{
+  int index = 0;
+  while(str1[index] != '\0' && str2[index] != '\0'){
+    if(str1[index] != str2[index]){
+      return index;
+    }
+    index++;
+  }
+
+  // one str comes to the end, return the index.
+  if(str1[index] != str2[index]){
+    return index;
+  }
+  return -1; // same word
+}
+
+// p1: dict* r (r->a->c)
+// p2: dict* t (t->r->a->p)
+char* get_dict_word(dict* node)
+{
+  char* str = malloc(1);
+  if(!str){
+    perror("Failed to allocate memory");
+    exit(EXIT_FAILURE);
+  }
+
+  int length = 0;
+  while(node != NULL && node->up != NULL){
+    int index = 0;
+    dict* parent = node->up;
+    while(index < ALPHA && parent->dwn[index] != node){
+      index++;
+    }
+    if(index < ALPHA){
+      char* temp = realloc(str, length+2); //+2 for the new char and '\0'
+      if(!temp){
+        free(str);
+        perror("Failed to reallocate memory");
+        exit(EXIT_FAILURE);
+      }
+      str = temp;
+      str[length++] = 'a' + index;
+    }
+    node = parent;
+  }
+  str[length] = '\0';
+
+  // reverse the string since it's constructed backwards
+  for(int i=0; i<length/2; i++){
+    char temp = str[i];
+    str[i] = str[length-i-1];
+    str[length-i-1] = temp;
+  }
+  // printf("Word: %s\n", str);
+  return str;
+}
+
+void print_word_from_node(dict* node)
+{
+  if(node == NULL) return;
+  while(node != NULL && node->up != NULL){
+    int index = 0;
+    dict* parent = node->up;
+    while(index < ALPHA && parent->dwn[index] != node){
+      index++;
+    }
+    // printf("index value: %i\n", index);
+    if(index < ALPHA){
+      char current_char = 'a' + index;
+      if(index == 26){
+        current_char = '\'';
+      }
+      printf("current_char: %c\n", current_char);
+    }
+
+    // move backward to previous node
+    node = parent;
+  }
+}
+
+dict* get_tail_wd_node(const dict* p, const char*wd)
+{
+  dict* curr = (dict*)p;
+  for(int i=0; wd[i] != '\0'; i++){
+    char c = tolower(wd[i]);
+    int index = c - 'a';
+    if(index<0 || index > ALPHA || curr->dwn[index]== NULL){
+      // printf("Prefix not found.\n");
+      return NULL;
+    }
+    curr = curr->dwn[index]; // move to child
+  }
+  return curr;
+}
+
+void print_dict(struct dict* d) {
+    if (d == NULL) return;
+    printf("Terminal: %s\n", d->terminal? "true":"false");
+    printf("Frequency: %d\n", d->freq);
+    // Print the 'up' pointer (parent)
+    if (d->up != NULL) {
+        printf("Parent exists:\n");
+        print_dict(d->up);  // Recursively print the parent
+    } else {
+        printf("No parent (this is the root).\n");
+    }
+        
+    for (int i = 0; i < ALPHA; i++) {
+        // Print down pointers (children)
+        if (d->dwn[i] != NULL) {
+            printf("Child[%d] exists.\n", i);
+        }
+    }
 }

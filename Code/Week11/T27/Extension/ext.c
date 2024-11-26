@@ -1,13 +1,11 @@
 #include "ext.h"
 
-
+/* Generate fix number where to store the word in table. */
 unsigned int hash(const char *key);
-dict* create_table(void);
-void insert(dict* table, const char* key, int value);
-int search(dict* table, const char* key);
-void delete(dict* table, const char* key);
-void print_table(dict* table);
+
+/* Making string lower case. */
 char* string_to_lower(const char* str);
+void print_table(dict* table);
 
 dict* dict_init(void)
 {
@@ -118,7 +116,19 @@ int dict_mostcommon(const dict* t)
 }
 
 void test(void)
-{}
+{
+  char* lower_str = string_to_lower("Cat");
+  assert(strcmp(lower_str, "cat")==0);
+  hash(lower_str);
+  free(lower_str);
+
+  lower_str = string_to_lower("GOOD");
+  hash(lower_str);
+  assert(strcmp(lower_str, "good")==0);
+  free(lower_str);
+
+  
+}
 
 unsigned int hash(const char *key)
 {
@@ -127,77 +137,8 @@ unsigned int hash(const char *key)
     // multiply by 31(left shift by 5 and add the character value)
     hash_value = (hash_value << 5) + key[i];
   }
+  printf("hash: %i\n",hash_value % TABLE_SIZE);
   return hash_value % TABLE_SIZE;
-}
-
-dict* create_table(void)
-{
-  dict* new_table = (dict*)malloc(sizeof(dict));
-  for(int i=0; i<TABLE_SIZE; i++){
-    new_table->table[i] = NULL;
-  }
-  return new_table;
-}
-
-void insert(dict* table, const char* key, int value)
-{
-  unsigned int index = hash(key);
-  node* curr = table->table[index];
-
-  // traverse the linked list to check if the key already exists.
-  while(curr != NULL){
-    // if the key exists
-    if(strcmp(curr->key, key)==0){
-      curr->value = value;
-      curr->freq++;
-      return;
-    }
-    curr = curr->next;
-  }
-  // the key not exists
-  node* new_node = (node*)malloc(sizeof(node));
-  strcpy(new_node->key, key);
-  new_node->value = value;
-  new_node->freq = 1;
-  // insert new node at the beginning of the linked list
-  new_node->next = curr;
-  // set new_node becomes the first node in the linked list
-  curr = new_node;
-}
-
-int search(dict* table, const char* key)
-{
-  unsigned int index = hash(key);
-  node* curr = table->table[index];
-  while(curr != NULL){
-    if(strcmp(curr->key, key) == 0){
-      // curr->freq++;
-      return curr->value;
-    }
-    curr = curr->next;
-  }
-  return -1;
-}
-
-void delete(dict* table, const char* key)
-{
-  unsigned int index = hash(key);
-  node* curr = table->table[index];
-  node* prev = NULL;
-
-  while(curr != NULL){
-    if(strcmp(curr->key, key) == 0){
-      if(prev == NULL){
-        table->table[index] = curr->next;
-      } else {
-        prev->next = curr->next; //bypass the current node
-      }
-      free(curr);
-      return;
-    }
-    prev = curr;
-    curr = curr->next;
-  }
 }
 
 void print_table(dict* table)
@@ -214,7 +155,6 @@ void print_table(dict* table)
     }
   }
 }
-
 
 char* string_to_lower(const char* str)
 {

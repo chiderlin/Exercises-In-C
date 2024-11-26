@@ -412,13 +412,17 @@ void find_max_freq(const dict* node, const dict** result_node, int* result_freq,
 
 void test(void)
 {
+  assert(find_first_diff("dead", "deal")==3);
+  assert(find_first_diff("book", "bob")==2);
+  assert(sum_steps("dead","deal",3)==2);
+  assert(sum_steps("book","bob",2)==3);
 
 
 }
 // dict* create_node(dict* p);
 
 // char* get_dict_word(dict* node);
-// int find_first_diff(char* str1, char* str2);
-// int sum_steps(char* str1, char* str2, int index);
+//Vint find_first_diff(char* str1, char* str2);
+//Vint sum_steps(char* str1, char* str2, int index);
 // dict* get_tail_wd_node(const dict* p, char*wd);
 // void find_max_freq(const dict* node, const dict** result_node, int* result_freq, bool recursive);

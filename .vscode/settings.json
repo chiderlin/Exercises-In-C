@@ -65,6 +65,7 @@
     "format": "c",
     "thread": "c",
     "string.h": "c",
-    "assert.h": "c"
+    "assert.h": "c",
+    "t27.h": "c"
   }
 }

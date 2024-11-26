@@ -2,7 +2,7 @@
 #define MAXSTR 50
 // 'Internal' function prototypes 
 // ...
-dict* create_node(dict* p);
+dict* create_child_node(dict* p);
 void print_dict(dict* p);
 void print_word_from_node(dict* node);
 char* get_dict_word(dict* node);
@@ -46,8 +46,7 @@ bool dict_addword(dict* p, const char* wd)
     if(curr->dwn[index] == NULL){
       add = true;
       printf("NULL\n");
-      curr->dwn[index] = create_node(curr);
-      curr->dwn[index]->up = curr;
+      curr->dwn[index] = create_child_node(curr);
     }
     
     printf("----------------------\n");
@@ -87,9 +86,12 @@ void print_dict(struct dict* d) {
 }
 
 
-dict* create_node(dict* p)
+dict* create_child_node(dict* p)
 {
   dict* node = dict_init();
+  if(node != NULL){
+    node->up = p;
+  }
   return node;
 }
 
@@ -318,7 +320,6 @@ void print_word_from_node(dict* node)
 
 dict* get_tail_wd_node(const dict* p, char*wd)
 {
-  printf("in get_tail_wd_node...\n");
   dict* curr = p;
   for(int i=0; wd[i] != '\0'; i++){
     char c = tolower(wd[i]);
@@ -412,17 +413,61 @@ void find_max_freq(const dict* node, const dict** result_node, int* result_freq,
 
 void test(void)
 {
+  dict* d = dict_init();
+  assert(!d==NULL);
+
+  // test get_tail_wd_node()
+  assert(get_tail_wd_node(d, "node")==NULL);
+  assert(dict_addword(d, "node"));
+  assert(get_tail_wd_node(d, "node"));
+
+  // get_dict_word()
+  assert(dict_addword(d, "book"));
+  assert(dict_addword(d, "bob"));
+  dict *p1 = dict_spell(d, "book");
+  dict *p2 = dict_spell(d, "bob");
+  char* str1 = get_dict_word(p1);
+  char* str2 = get_dict_word(p2);
+  assert(strcmp(str1, "book")==0);
+  assert(strcmp(str2, "bob")==0);
+
+  // test find_first_diff()
+  assert(find_first_diff(str1, str2)==2);
   assert(find_first_diff("dead", "deal")==3);
-  assert(find_first_diff("book", "bob")==2);
-  assert(sum_steps("dead","deal",3)==2);
-  assert(sum_steps("book","bob",2)==3);
+  
+  // test sum_steps()
+  assert(sum_steps(str1, str2, 2)==3);
+  assert(sum_steps("dead", "deal", 3)==2);
 
+  // test find_max_freq()
+  assert(!dict_addword(d, "book")); // add twice
+  const dict* result_node = NULL;
+  int result_freq = -1;
+  find_max_freq(d, &result_node, &result_freq, false);
+  assert(result_node!= NULL);
+  assert(result_freq==2);
+  int b_index = 'b' - 'a';
+  int o_index = 'o' - 'a';
+  int k_index = 'k' - 'a';
+  assert(result_node==d->dwn[b_index]->dwn[o_index]->dwn[o_index]->dwn[k_index]);
 
+  free(str1);
+  free(str2);
+  dict_free(&d);
+
+  // test create_child_node()
+  dict* n = dict_init();
+  dict* node = create_child_node(n->dwn[0]);
+  assert(node!=NULL);
+  assert(node->up==n->dwn[0]);
+
+  free(node);
+  free(n);
 }
-// dict* create_node(dict* p);
+//Vdict* create_child_node(dict* p);
 
-// char* get_dict_word(dict* node);
+//Vchar* get_dict_word(dict* node);
 //Vint find_first_diff(char* str1, char* str2);
 //Vint sum_steps(char* str1, char* str2, int index);
-// dict* get_tail_wd_node(const dict* p, char*wd);
-// void find_max_freq(const dict* node, const dict** result_node, int* result_freq, bool recursive);
+//Vdict* get_tail_wd_node(const dict* p, char*wd);
+//Vvoid find_max_freq(const dict* node, const dict** result_node, int* result_freq, bool recursive);

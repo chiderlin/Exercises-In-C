@@ -96,6 +96,12 @@ dict* create_node(dict* p)
 void dict_free(dict** d)
 {
   if(*d){
+    // free recursively
+    for(int i=0; i<ALPHA; i++){
+      if((*d)->dwn[i] != NULL){
+        dict_free((*d)->dwn[i]);
+      }
+    }
     free(*d);
     *d = NULL; // prevent wild pointers
   }
@@ -309,6 +315,7 @@ void print_word_from_node(dict* node)
     node = parent;
   }
 }
+
 dict* get_tail_wd_node(const dict* p, char*wd)
 {
   printf("in get_tail_wd_node...\n");
@@ -336,19 +343,19 @@ void dict_autocomplete(const dict* p, const char* wd, char* ret)
     return;
   }
 
-  // dict* curr = get_tail_wd_node(p, wd);
-  dict* curr = p;
-  for(int i=0; wd[i] != '\0'; i++){
-    printf(" wd[i]:%c\n", wd[i]);
-    char c = tolower(wd[i]);
-    int index = c - 'a';
-    printf("index:%i\n",index);
-    if(index<0 || index > ALPHA || curr->dwn[index]== NULL){
-      printf("Prefix not found.\n");
-      return ;
-    }
-    curr = curr->dwn[index]; // move to child //r
-  }
+  dict* curr = get_tail_wd_node(p, wd);
+  // dict* curr = p;
+  // for(int i=0; wd[i] != '\0'; i++){
+  //   printf(" wd[i]:%c\n", wd[i]);
+  //   char c = tolower(wd[i]);
+  //   int index = c - 'a';
+  //   printf("index:%i\n",index);
+  //   if(index<0 || index > ALPHA || curr->dwn[index]== NULL){
+  //     printf("Prefix not found.\n");
+  //     return ;
+  //   }
+  //   curr = curr->dwn[index]; // move to child //r
+  // }
 
   // find most frequent word starting from curr
   const dict* max_freq_node = NULL;
@@ -405,4 +412,13 @@ void find_max_freq(const dict* node, const dict** result_node, int* result_freq,
 
 void test(void)
 {
+
+
 }
+// dict* create_node(dict* p);
+
+// char* get_dict_word(dict* node);
+// int find_first_diff(char* str1, char* str2);
+// int sum_steps(char* str1, char* str2, int index);
+// dict* get_tail_wd_node(const dict* p, char*wd);
+// void find_max_freq(const dict* node, const dict** result_node, int* result_freq, bool recursive);

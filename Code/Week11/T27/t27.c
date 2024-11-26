@@ -101,7 +101,7 @@ void dict_free(dict** d)
     // free recursively
     for(int i=0; i<ALPHA; i++){
       if((*d)->dwn[i] != NULL){
-        dict_free((*d)->dwn[i]);
+        dict_free(&((*d)->dwn[i]));
       }
     }
     free(*d);

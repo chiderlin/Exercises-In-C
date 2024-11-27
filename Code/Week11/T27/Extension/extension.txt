@@ -36,7 +36,7 @@ To improve hash table performance, may consider:
 - Increasing the initial capacity to reduce collisions.
 - Tailoring the hash function to the key distribution.
 
-After Increasing the inital capacity, which set TABLE_SIZE from 10 to 1000, 
+After Increasing the initial capacity, which set TABLE_SIZE from 10 to 1000, 
 the execution time decreased significantly.
 Execution time: 0.065270 seconds.
 
@@ -56,5 +56,5 @@ In conclusion,
 - Speed: ./t27 is slightly faster than ./ext in terms of elapsed time and user time.
 - Memory Usage: ./t27 uses more memory, possibly due to larger data structures or more intensive processing.
 - Efficiency: While both programs utilize a high percentage of CPU, 
-  ./t27 has more page faults and a larger memory footprint, 
-  which could affect its scalability or performance in memory-constrained environments.
+./t27 has more page faults and a larger memory footprint, 
+which could affect its scalability or performance in memory-constrained environments.

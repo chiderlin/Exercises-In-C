@@ -1,4 +1,5 @@
 #include "t27.h"
+
 #define MAXSTR 50
 // 'Internal' function prototypes 
 // ...

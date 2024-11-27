@@ -1,10 +1,12 @@
 #include "t27.h"
-
+#include <time.h>
 #define MAXSTR 50
 
 int main(void)
 {
-
+   clock_t start, end;
+   double cpu_time_used;
+   start = clock();
    test();
 
    dict* d = NULL;
@@ -225,5 +227,8 @@ int main(void)
       dict_free(&dcts[i]);
    }
 
+   end = clock();
+   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+   printf("Execution time: %f seconds\n", cpu_time_used);
    return 0;
 }

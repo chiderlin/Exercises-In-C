@@ -5,9 +5,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <time.h>
 
 #define KEY_SIZE 100
-#define TABLE_SIZE 10
+#define TABLE_SIZE 1000
 
 struct node {
   char key[KEY_SIZE];

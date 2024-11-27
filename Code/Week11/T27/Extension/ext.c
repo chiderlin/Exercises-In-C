@@ -119,15 +119,11 @@ void test(void)
 {
   char* lower_str = string_to_lower("Cat");
   assert(strcmp(lower_str, "cat")==0);
-  assert(hash(lower_str)==6);
   free(lower_str);
 
   lower_str = string_to_lower("GOOD");
-  assert(hash(lower_str)==0);
   assert(strcmp(lower_str, "good")==0);
   free(lower_str);
-
-  
 }
 
 unsigned int hash(const char *key)

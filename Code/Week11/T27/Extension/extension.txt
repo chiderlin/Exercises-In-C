@@ -1,0 +1,41 @@
+Speed:
+- Hash Table
+Hash tables offer O(1) average-case complexity for search, insertion, and deletion, 
+making them extremely fast when the hash function distributes keys evenly. 
+However, in the worst-case (e.g., many collisions), performance degrades to O(n).
+
+- Tree
+Tree-based structures, like tries, have O(m) complexity for search and insertion, 
+where m is the length of the key. 
+They are slower than hash tables in general but provide consistent worst-case performance, 
+unaffected by collisions.
+
+However,
+
+./t27
+Execution time: 0.097086 seconds
+
+./ext
+Execution time: 5.514978 seconds
+
+
+The hash table execution time was 5.514978 seconds, 
+significantly slower than the tree structure’s 0.097086 seconds. 
+While hash tables theoretically offer O(1) complexity for average cases, 
+several practical factors can lead to slower performance:
+1. Collision handling inefficiencies.
+2. Hash function computational cost.
+3. Poor memory/cache utilization.
+4. Excessive rehashing due to inadequate initial settings.
+5. Key distribution issues.
+
+For large datasets or unknown key distributions, 
+trees may perform better due to their stability and reduced reliance on specific configurations. 
+To improve hash table performance, may consider:
+- Using a faster hash function.
+- Increasing the initial capacity to reduce collisions.
+- Tailoring the hash function to the key distribution.
+
+After Increasing the inital capacity, which set TABLE_SIZE from 10 to 1000, 
+the execution time decreased significantly.
+Execution time: 0.139985 seconds.

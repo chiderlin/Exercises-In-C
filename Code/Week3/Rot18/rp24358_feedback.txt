@@ -1,0 +1,15 @@
+FLAGS = 10
+GOTO etc = 5
+BRACES = 3
+NAMES = 2
+REPC = 3
+LLEN = 3
+MAIN = 2
+CAPS = 2
+FLEN = 3
+MAGIC = 2
+BRIEF = 3
+TESTS = 10
+CORRECT = 5
+
+The code compiled without errors or warnings. Overall, concise code was written. There aren't too many names in the code, though the naming of "c" could be clearer. Most calculations are completed in a single line, with some "magic numbers" appearing. Defining values like 13, 26, 5, and 10 would improve clarity. There are no additional functions for specific tasks, which makes it hard to see differentiation. Comments are provided to aid understanding. As for testing, there are simple tests for alpha and digit conversion, but no specific handling of special characters or mixed tests. I'll give a score of 53%. Most aspects meet the standard, but the use of MAIN or CAPS is not evident.

@@ -1,14 +1,17 @@
 #include "t27.h"
-
+#include <time.h>
 #define MAXSTR 50
 
 int main(void)
 {
-
+   clock_t start, end;
+   double cpu_time_used;
+   start = clock();
    test();
 
    dict* d = NULL;
    char str[MAXSTR];
+
 
 /* !!!!!!!!!!!!!!!!!!!!*/
 /* The basic functions */
@@ -29,6 +32,7 @@ int main(void)
    assert(dict_mostcommon(d)==1);
    dict* q1 = dict_spell(d, "car");
    dict* q2 = dict_spell(d, "part");
+   dict_cmp(q1, q2);
    assert(dict_cmp(q1, q2)==7);
    // It's unsigned
    assert(dict_cmp(q2, q1)==7);
@@ -37,6 +41,7 @@ int main(void)
    // Most frequently stored word after car is car+t
    assert(strcmp(str, "t")==0);
    dict_free(&d);
+
 
 /* A slightly different example */
    d = dict_init();
@@ -116,6 +121,7 @@ int main(void)
    dict_free(&d);
    assert(d==NULL);
 
+
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 /* Basic functions, but lots of data from file */
 
@@ -158,8 +164,10 @@ int main(void)
       assert(dict_nodecount(d)==nodec[i]);
       assert(dict_wordcount(d)==wc);
    }
+   
 
-/* Leave this commented out to begin with
+
+// Leave this commented out to begin with
 // !!!!!!!!!!!!!!!!!!!!!!!
 // 10% : DICT_AUTOCOMPLETE
    d = dict_init();
@@ -212,12 +220,15 @@ int main(void)
    // 5 moves to top, 5 moves back down again
    assert(dict_cmp(p1, p2)==10);
    dict_free(&d);
-*/
+
 
    // Free up all those dictionaries
    for(int i=0; i<DICTFILES; i++){
       dict_free(&dcts[i]);
    }
 
+   end = clock();
+   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+   printf("Execution time: %f seconds\n", cpu_time_used);
    return 0;
 }

@@ -1,0 +1,32 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     ext
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003F74, symSize: 0x2C }
+  - { offsetInCU: 0x33, offset: 0x33, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x0, symBinAddr: 0x100003F74, symSize: 0x2C }
+  - { offsetInCU: 0x26, offset: 0x79, size: 0x8, addend: 0x0, symName: _dict_init, symObjAddr: 0x0, symBinAddr: 0x100003FB8, symSize: 0x374 }
+  - { offsetInCU: 0x3B, offset: 0x8E, size: 0x8, addend: 0x0, symName: _.str, symObjAddr: 0x4340, symBinAddr: 0x100007940, symSize: 0x0 }
+  - { offsetInCU: 0x66, offset: 0xB9, size: 0x8, addend: 0x0, symName: _.str.1, symObjAddr: 0x43A0, symBinAddr: 0x1000079A0, symSize: 0x0 }
+  - { offsetInCU: 0x83, offset: 0xD6, size: 0x8, addend: 0x0, symName: _.str.2, symObjAddr: 0x43C0, symBinAddr: 0x1000079C0, symSize: 0x0 }
+  - { offsetInCU: 0x94, offset: 0xE7, size: 0x8, addend: 0x0, symName: ___func__.test, symObjAddr: 0x43E0, symBinAddr: 0x1000079E0, symSize: 0x0 }
+  - { offsetInCU: 0xB6, offset: 0x109, size: 0x8, addend: 0x0, symName: _.str.3, symObjAddr: 0x4400, symBinAddr: 0x100007A00, symSize: 0x0 }
+  - { offsetInCU: 0xD3, offset: 0x126, size: 0x8, addend: 0x0, symName: _.str.4, symObjAddr: 0x4420, symBinAddr: 0x100007A20, symSize: 0x0 }
+  - { offsetInCU: 0xF0, offset: 0x143, size: 0x8, addend: 0x0, symName: _.str.5, symObjAddr: 0x4460, symBinAddr: 0x100007A60, symSize: 0x0 }
+  - { offsetInCU: 0x10D, offset: 0x160, size: 0x8, addend: 0x0, symName: _.str.6, symObjAddr: 0x44A0, symBinAddr: 0x100007AA0, symSize: 0x0 }
+  - { offsetInCU: 0x12A, offset: 0x17D, size: 0x8, addend: 0x0, symName: _.str.7, symObjAddr: 0x44C0, symBinAddr: 0x100007AC0, symSize: 0x0 }
+  - { offsetInCU: 0x13B, offset: 0x18E, size: 0x8, addend: 0x0, symName: _.str.8, symObjAddr: 0x4500, symBinAddr: 0x100007B00, symSize: 0x0 }
+  - { offsetInCU: 0x14C, offset: 0x19F, size: 0x8, addend: 0x0, symName: _.str.9, symObjAddr: 0x4520, symBinAddr: 0x100007B20, symSize: 0x0 }
+  - { offsetInCU: 0x169, offset: 0x1BC, size: 0x8, addend: 0x0, symName: _.str.10, symObjAddr: 0x4560, symBinAddr: 0x100007B60, symSize: 0x0 }
+  - { offsetInCU: 0x186, offset: 0x1D9, size: 0x8, addend: 0x0, symName: _.str.11, symObjAddr: 0x4580, symBinAddr: 0x100007B80, symSize: 0x0 }
+  - { offsetInCU: 0x1A3, offset: 0x1F6, size: 0x8, addend: 0x0, symName: _.str.12, symObjAddr: 0x45C0, symBinAddr: 0x100007BC0, symSize: 0x0 }
+  - { offsetInCU: 0x251, offset: 0x2A4, size: 0x8, addend: 0x0, symName: _dict_init, symObjAddr: 0x0, symBinAddr: 0x100003FB8, symSize: 0x374 }
+  - { offsetInCU: 0x295, offset: 0x2E8, size: 0x8, addend: 0x0, symName: _dict_addword, symObjAddr: 0x374, symBinAddr: 0x10000432C, symSize: 0xEC4 }
+  - { offsetInCU: 0x304, offset: 0x357, size: 0x8, addend: 0x0, symName: _string_to_lower, symObjAddr: 0x1238, symBinAddr: 0x1000051F0, symSize: 0x6D4 }
+  - { offsetInCU: 0x364, offset: 0x3B7, size: 0x8, addend: 0x0, symName: _hash, symObjAddr: 0x190C, symBinAddr: 0x1000058C4, symSize: 0x3F8 }
+  - { offsetInCU: 0x3B6, offset: 0x409, size: 0x8, addend: 0x0, symName: _dict_wordcount, symObjAddr: 0x1D04, symBinAddr: 0x100005CBC, symSize: 0x148 }
+  - { offsetInCU: 0x3DE, offset: 0x431, size: 0x8, addend: 0x0, symName: _dict_spell, symObjAddr: 0x1E4C, symBinAddr: 0x100005E04, symSize: 0x3CC }
+  - { offsetInCU: 0x43E, offset: 0x491, size: 0x8, addend: 0x0, symName: _dict_free, symObjAddr: 0x2218, symBinAddr: 0x1000061D0, symSize: 0x5A8 }
+  - { offsetInCU: 0x4B6, offset: 0x509, size: 0x8, addend: 0x0, symName: _dict_mostcommon, symObjAddr: 0x27C0, symBinAddr: 0x100006778, symSize: 0x5A4 }
+  - { offsetInCU: 0x524, offset: 0x577, size: 0x8, addend: 0x0, symName: _test, symObjAddr: 0x2D64, symBinAddr: 0x100006D1C, symSize: 0x1F8 }
+  - { offsetInCU: 0x548, offset: 0x59B, size: 0x8, addend: 0x0, symName: _print_table, symObjAddr: 0x2F5C, symBinAddr: 0x100006F14, symSize: 0x60C }
+...

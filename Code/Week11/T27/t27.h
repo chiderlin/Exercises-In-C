@@ -76,6 +76,10 @@ unsigned dict_cmp(dict* p1, dict* p2);
    In the event of ties, use the word that comes
    first alphabetically. Treat the apostrophe as
    alphabetically greater than all letters */
+   // car, cat
+   // c->a-> 這邊可以去判斷r or t 哪個更freq. 如果r, return "r"
+   // then it will auto complete "car"
+   // p: root tree, wd: search, ret: word to complete, 
 void dict_autocomplete(const dict* p, const char* wd, char* ret);
 
 void test(void);

@@ -55,17 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "mydefs.h": "c",
-    "stdbool.h": "c",
-    "stdio.h": "c",
-    "vector": "c",
-    "*.tcc": "c",
-    "format": "c",
-    "thread": "c",
-    "string.h": "c",
-    "assert.h": "c",
-    "t27.h": "c"
-  }
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }
